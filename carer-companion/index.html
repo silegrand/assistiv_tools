@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carer Companion · Assistiv Tools</title>
+<meta name="description" content="A thinking partner for unpaid carers. Reduce the mental load of caring so you have room to care.">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/brand.css">
+
+<style>
+/* ── Brand override: tools amber ── */
+:root {
+  --brand:      var(--brand-tools);
+  --brand-dark: var(--brand-tools-dark);
+  --brand-mid:  var(--brand-tools-mid);
+  --brand-pale: var(--brand-tools-pale);
+  --brand-ring: var(--brand-tools-ring);
+
+  /* Local palette */
+  --amber:      #ED8C36;
+  --amber-dark: #9e5412;
+  --amber-mid:  #c4702a;
+  --amber-pale: #fdf3e3;
+  --amber-ring: rgba(237,140,54,0.18);
+
+  --cream:      #faf7f2;
+  --white:      #ffffff;
+  --ink:        #1c1a16;
+  --ink-mid:    #3a3428;
+  --ink-soft:   #6b6258;
+  --border:     #e8e0d4;
+  --border-light: #f0ebe3;
+  --shadow:     0 2px 20px rgba(60,40,10,0.07);
+  --shadow-lg:  0 8px 48px rgba(60,40,10,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink-mid);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp   { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+@keyframes breathe  { 0%,100%{opacity:.45;transform:scale(.93);} 50%{opacity:.9;transform:scale(1.07);} }
+@keyframes spin     { to { transform: rotate(360deg); } }
+@keyframes pulse    { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+@keyframes slideIn  { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+
+.fade-up { opacity:0; transform:translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(250,247,242,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--amber-dark);
+}
+.nav-logo-mark { position:relative; width:22px; height:22px; flex-shrink:0; }
+.nav-logo-mark span {
+  border-radius:50%; position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+}
+.nlm-core { width:6px; height:6px; background:var(--amber-dark); }
+.nlm-r1   { width:13px; height:13px; border:1.5px solid var(--amber-mid); opacity:.5; background:none; }
+.nlm-r2   { width:21px; height:21px; border:1.5px solid var(--amber); opacity:.2; background:none; }
+.nav-wordmark {
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: -0.01em; line-height:1.1; color: var(--amber-dark);
+}
+.nav-wordmark span { display:block; font-size:8px; font-weight:400; letter-spacing:.15em; text-transform:uppercase; color:var(--amber-mid); opacity:.8; }
+.nav-back {
+  font-size: 13px; font-weight: 500; color: var(--ink-soft);
+  text-decoration: none; display: flex; align-items: center; gap: 6px;
+  transition: color .2s;
+}
+.nav-back:hover { color: var(--amber-mid); }
+.nav-back svg { opacity:.6; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 100px 24px 80px;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 80%, rgba(237,140,54,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 20%, rgba(196,112,42,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(253,243,227,0.5) 0%, transparent 70%);
+}
+/* Ambient breathing orbs */
+.hero-orb {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  animation: breathe 4s ease-in-out infinite;
+}
+.orb-1 { width:320px;height:320px; top:-60px;right:-80px; background:radial-gradient(circle,rgba(237,140,54,0.08) 0%,transparent 70%); animation-delay:0s; }
+.orb-2 { width:220px;height:220px; bottom:80px;left:-60px; background:radial-gradient(circle,rgba(196,112,42,0.07) 0%,transparent 70%); animation-delay:-2s; }
+
+.hero-inner { max-width: 720px; width: 100%; text-align: center; position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--amber-mid); margin-bottom: 28px;
+  opacity: 0; animation: fadeUp .6s ease .1s forwards;
+}
+
+.hero-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 6.5vw, 72px);
+  font-weight: 300; line-height: 1.08;
+  color: var(--ink); margin-bottom: 28px;
+  opacity: 0; animation: fadeUp .7s ease .25s forwards;
+}
+.hero-headline em { font-style: italic; color: var(--amber-mid); }
+
+.hero-lede {
+  font-size: clamp(16px, 2vw, 20px); font-weight: 300; line-height: 1.75;
+  color: var(--ink-soft); max-width: 560px; margin: 0 auto 48px;
+  opacity: 0; animation: fadeUp .7s ease .4s forwards;
+}
+
+.hero-cta-row {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp .7s ease .55s forwards;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--amber-dark); color: #fff;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  padding: 14px 32px; border: none; border-radius: 50px; cursor: pointer;
+  text-decoration: none; transition: all .22s;
+}
+.btn-primary:hover { background: var(--amber-mid); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(158,84,18,.22); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: none; color: var(--ink-soft);
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+  padding: 14px 28px; border: 1.5px solid var(--border); border-radius: 50px;
+  cursor: pointer; text-decoration: none; transition: all .22s;
+}
+.btn-ghost:hover { border-color: var(--amber); color: var(--amber-mid); }
+
+.hero-trust {
+  margin-top: 52px; opacity: 0; animation: fadeUp .7s ease .7s forwards;
+  font-size: 12px; color: var(--ink-soft); opacity:.6;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.hero-trust::before, .hero-trust::after {
+  content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--border);
+}
+
+/* ── SECTION WRAPPER ── */
+.section { padding: 100px 24px; }
+.section-inner { max-width: 960px; margin: 0 auto; }
+.section-inner.narrow { max-width: 720px; }
+
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--amber-mid); margin-bottom: 16px; opacity: .85;
+}
+.section-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 4vw, 48px); font-weight: 300; line-height: 1.15;
+  color: var(--ink); margin-bottom: 20px;
+}
+.section-headline em { font-style: italic; color: var(--amber-mid); }
+.section-lede {
+  font-size: 17px; font-weight: 300; line-height: 1.8; color: var(--ink-soft);
+  margin-bottom: 56px; max-width: 600px;
+}
+
+/* ── THESIS ── */
+.thesis { background: var(--ink); padding: 100px 24px; }
+.thesis-inner { max-width: 840px; margin: 0 auto; }
+.thesis-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 28px; opacity: .7;
+}
+.thesis-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 46px); font-weight: 300; line-height: 1.2;
+  color: var(--white); margin-bottom: 40px;
+}
+.thesis-headline em { font-style: italic; color: var(--amber); }
+.thesis-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+  margin-bottom: 48px;
+}
+.thesis-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  padding: 28px 28px;
+}
+.thesis-card:first-child { border-radius: 12px 0 0 0; }
+.thesis-card:nth-child(2) { border-radius: 0 12px 0 0; }
+.thesis-card:nth-child(3) { border-radius: 0 0 0 12px; }
+.thesis-card:last-child { border-radius: 0 0 12px 0; }
+.thesis-card-num {
+  font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300;
+  color: var(--amber); opacity:.35; line-height:1; margin-bottom: 12px;
+}
+.thesis-card-title {
+  font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 8px;
+}
+.thesis-card-body {
+  font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,.55);
+}
+.thesis-note {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 300; font-style: italic;
+  color: rgba(255,255,255,.5); line-height: 1.7;
+  border-left: 2px solid var(--amber); padding-left: 24px;
+}
+.thesis-note strong { color: rgba(255,255,255,.8); font-style: normal; font-weight: 400; }
+
+/* ── CAPABILITIES ── */
+.capabilities-list { display: flex; flex-direction: column; gap: 3px; }
+.cap-item {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden;
+  transition: box-shadow .2s;
+}
+.cap-item:hover { box-shadow: var(--shadow); }
+.cap-header {
+  display: flex; align-items: center; gap: 20px;
+  padding: 24px 28px; cursor: pointer;
+  user-select: none;
+}
+.cap-num {
+  font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300;
+  color: var(--amber); opacity: .4; flex-shrink: 0; width: 32px;
+}
+.cap-title-wrap { flex: 1; }
+.cap-title {
+  font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 4px;
+  line-height: 1.3;
+}
+.cap-subtitle { font-size: 13px; font-weight: 300; color: var(--ink-soft); }
+.cap-toggle {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: var(--amber-pale); border: 1px solid rgba(237,140,54,.2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.cap-item.open .cap-toggle { background: var(--amber-dark); transform: rotate(45deg); }
+.cap-toggle svg { color: var(--amber-mid); }
+.cap-item.open .cap-toggle svg { color: white; }
+.cap-body {
+  display: none; padding: 0 28px 28px 80px;
+  font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--ink-soft);
+}
+.cap-item.open .cap-body { display: block; }
+.cap-body ul { list-style: none; padding: 0; }
+.cap-body li {
+  position: relative; padding-left: 20px; margin-bottom: 10px;
+}
+.cap-body li::before {
+  content: ''; position: absolute; left: 0; top: 11px;
+  width: 6px; height: 1.5px; background: var(--amber-mid); opacity: .7;
+}
+.cap-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #dcfce7; color: #166534;
+  font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 50px; margin-left: 8px; vertical-align: middle;
+}
+
+/* ── QUESTION BUILDER DEMO ── */
+.demo-section {
+  background: linear-gradient(160deg, var(--amber-pale) 0%, var(--cream) 60%);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 100px 24px;
+}
+.demo-inner { max-width: 800px; margin: 0 auto; }
+
+.demo-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-lg);
+}
+.demo-card-header {
+  background: var(--amber-dark); padding: 20px 28px;
+  display: flex; align-items: center; gap: 14px;
+}
+.demo-card-icon {
+  width: 36px; height: 36px; background: rgba(255,255,255,.15);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.demo-card-title {
+  font-size: 15px; font-weight: 600; color: white; line-height: 1.2;
+}
+.demo-card-subtitle { font-size: 12px; color: rgba(255,255,255,.65); font-weight: 300; }
+.demo-live-badge {
+  margin-left: auto; background: rgba(255,255,255,.15);
+  font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: white; padding: 4px 10px; border-radius: 50px;
+  display: flex; align-items: center; gap: 5px;
+}
+.demo-live-dot {
+  width: 6px; height: 6px; background: #86efac; border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.demo-body { padding: 32px 28px; }
+
+.demo-step { margin-bottom: 28px; }
+.demo-step-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--amber-mid); margin-bottom: 10px; opacity: .8;
+}
+.demo-step-label span {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; background: var(--amber-pale);
+  border-radius: 50%; font-size: 9px; color: var(--amber-dark);
+  margin-right: 6px; font-style: normal; letter-spacing: 0;
+}
+
+.specialist-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  margin-bottom: 8px;
+}
+.spec-btn {
+  background: var(--cream); border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 12px 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  color: var(--ink-soft); cursor: pointer; transition: all .18s;
+  text-align: center; line-height: 1.3;
+}
+.spec-btn:hover { border-color: var(--amber); color: var(--amber-dark); background: var(--amber-pale); }
+.spec-btn.active {
+  border-color: var(--amber-dark); color: var(--amber-dark);
+  background: var(--amber-pale); font-weight: 600;
+}
+
+.observations-area {
+  width: 100%;
+  background: var(--cream); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 14px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+  color: var(--ink-mid); line-height: 1.65; resize: vertical; min-height: 90px;
+  transition: border-color .2s; outline: none;
+}
+.observations-area:focus { border-color: var(--amber); }
+.observations-area::placeholder { color: var(--ink-soft); opacity: .6; }
+
+.build-btn {
+  width: 100%; padding: 15px;
+  background: var(--amber-dark); color: white;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  border: none; border-radius: 12px; cursor: pointer;
+  transition: all .22s; display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.build-btn:hover:not(:disabled) { background: var(--amber-mid); transform: translateY(-1px); }
+.build-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Results area */
+.results-area {
+  display: none; margin-top: 24px; padding-top: 24px;
+  border-top: 1px solid var(--border-light);
+  animation: slideIn .4s ease;
+}
+.results-area.visible { display: block; }
+
+.results-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+}
+.results-header-title {
+  font-size: 13px; font-weight: 600; color: var(--ink-mid);
+}
+.results-header-sub {
+  font-size: 12px; font-weight: 300; color: var(--ink-soft); margin-left: auto;
+  font-style: italic;
+}
+
+.question-list { list-style: none; padding: 0; }
+.question-item {
+  display: flex; gap: 14px; padding: 14px 0;
+  border-bottom: 1px solid var(--border-light);
+  animation: slideIn .3s ease both;
+}
+.question-item:last-child { border-bottom: none; }
+.q-num {
+  font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300;
+  color: var(--amber); opacity: .5; flex-shrink: 0; line-height: 1; margin-top: 2px;
+  min-width: 20px;
+}
+.q-text {
+  font-size: 15px; font-weight: 400; line-height: 1.65; color: var(--ink-mid);
+}
+.q-context {
+  font-size: 12px; font-weight: 300; color: var(--ink-soft); margin-top: 4px;
+  font-style: italic;
+}
+
+.results-footer {
+  margin-top: 18px; padding: 14px 18px;
+  background: var(--amber-pale); border-radius: 10px;
+  font-size: 12px; font-weight: 300; color: var(--amber-dark); line-height: 1.6;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.results-footer svg { flex-shrink: 0; margin-top: 1px; }
+
+.spinner {
+  width: 20px; height: 20px; border: 2.5px solid rgba(255,255,255,.3);
+  border-top-color: white; border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+.error-msg {
+  background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px;
+  padding: 14px 18px; font-size: 13px; color: #991b1b; margin-top: 16px;
+  display: none;
+}
+.error-msg.visible { display: block; }
+
+/* ── DESIGN PHILOSOPHY ── */
+.principles { background: var(--white); padding: 100px 24px; }
+.principles-inner { max-width: 960px; margin: 0 auto; }
+.principles-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+.principle-card {
+  border-top: 2px solid var(--amber-pale); padding-top: 24px;
+}
+.principle-icon {
+  width: 38px; height: 38px; background: var(--amber-pale);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px; color: var(--amber-dark);
+}
+.principle-title {
+  font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 10px;
+}
+.principle-body {
+  font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--ink-soft);
+}
+
+/* ── BUILD SEQUENCE ── */
+.build { padding: 100px 24px; }
+.build-inner { max-width: 760px; margin: 0 auto; }
+.build-steps { position: relative; }
+.build-steps::before {
+  content: ''; position: absolute; left: 19px; top: 0; bottom: 0;
+  width: 1px; background: linear-gradient(to bottom, var(--amber), transparent);
+}
+.build-step {
+  display: flex; gap: 24px; padding-bottom: 40px; position: relative;
+}
+.build-step:last-child { padding-bottom: 0; }
+.step-dot {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: var(--amber-pale); border: 2px solid var(--amber);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300;
+  color: var(--amber-dark); position: relative; z-index: 1;
+}
+.step-dot.done { background: var(--amber-dark); border-color: var(--amber-dark); color: white; font-family: 'DM Sans', sans-serif; font-size: 14px; }
+.step-content { padding-top: 8px; }
+.step-title {
+  font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 6px;
+}
+.step-desc {
+  font-size: 14px; font-weight: 300; line-height: 1.7; color: var(--ink-soft);
+}
+.step-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 50px; margin-top: 8px;
+}
+.status-live { background: #dcfce7; color: #166534; }
+.status-next { background: var(--amber-pale); color: var(--amber-dark); }
+.status-future { background: var(--border-light); color: var(--ink-soft); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); padding: 60px 24px 40px;
+  text-align: center;
+}
+.footer-logo {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.footer-name {
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--amber); letter-spacing: -.01em;
+}
+.footer-tagline {
+  font-size: 13px; font-weight: 300; color: rgba(255,255,255,.35); margin-bottom: 32px;
+}
+.footer-links {
+  display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+  font-size: 13px; margin-bottom: 36px;
+}
+.footer-links a { color: rgba(255,255,255,.4); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--amber); }
+.footer-legal {
+  font-size: 12px; font-weight: 300; color: rgba(255,255,255,.2); line-height: 1.8;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .thesis-grid { grid-template-columns: 1fr; }
+  .thesis-card:first-child  { border-radius: 12px 12px 0 0; }
+  .thesis-card:nth-child(2) { border-radius: 0; }
+  .thesis-card:nth-child(3) { border-radius: 0; }
+  .thesis-card:last-child   { border-radius: 0 0 12px 12px; }
+  .principles-grid { grid-template-columns: 1fr; }
+  .specialist-grid { grid-template-columns: repeat(2, 1fr); }
+  .cap-body { padding-left: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-mark">
+      <span class="nlm-core"></span>
+      <span class="nlm-r1"></span>
+      <span class="nlm-r2"></span>
+    </div>
+    <div class="nav-wordmark">
+      assistiv.tools
+      <span>Community Screening</span>
+    </div>
+  </a>
+  <a href="/" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+      <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    All tools
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb orb-1"></div>
+  <div class="hero-orb orb-2"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Carer Companion · In development</p>
+    <h1 class="hero-headline">
+      A carer's day is not<br>short of love. It is short<br>of <em>bandwidth.</em>
+    </h1>
+    <p class="hero-lede">
+      Every hour spent decoding clinical letters, re-telling the same history to a fifth professional, or lying awake wondering whether two things might be connected is an hour taken from the person you are caring for. Carer Companion holds the load, so you can do the caring.
+    </p>
+    <div class="hero-cta-row">
+      <a href="#demo" class="btn-primary">
+        Try the Question Builder
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#capabilities" class="btn-ghost">See how it works</a>
+    </div>
+    <p class="hero-trust">For unpaid carers · Not a medical device · Your data stays yours</p>
+  </div>
+</section>
+
+<!-- THESIS -->
+<section class="thesis">
+  <div class="thesis-inner">
+    <p class="thesis-label fade-up">The problem</p>
+    <h2 class="thesis-headline fade-up">
+      Most carer apps treat this as a <em>storage</em> problem.<br>It is not. It is a <em>cognition</em> problem.
+    </h2>
+    <div class="thesis-grid fade-up">
+      <div class="thesis-card">
+        <div class="thesis-card-num">01</div>
+        <div class="thesis-card-title">Holding</div>
+        <div class="thesis-card-body">Remembering everything — because you are the only continuous record across every team, every ward, every appointment.</div>
+      </div>
+      <div class="thesis-card">
+        <div class="thesis-card-num">02</div>
+        <div class="thesis-card-title">Sorting</div>
+        <div class="thesis-card-body">Deciding what matters, what is urgent, what can wait — with no clinical training and no time to think.</div>
+      </div>
+      <div class="thesis-card">
+        <div class="thesis-card-num">03</div>
+        <div class="thesis-card-title">Connecting</div>
+        <div class="thesis-card-body">Noticing that two things from two different teams might be related. The gap no single specialist sees — only you do.</div>
+      </div>
+      <div class="thesis-card">
+        <div class="thesis-card-num">04</div>
+        <div class="thesis-card-title">Advocating</div>
+        <div class="thesis-card-body">Knowing what to ask, and having the words ready when you are finally in the room with someone who can help.</div>
+      </div>
+    </div>
+    <p class="thesis-note fade-up">
+      Storage tools help only with the first, and only a little. <strong>Carer Companion is designed to take on all four</strong> — with AI doing the heavy cognitive lifting on jobs 2, 3, and 4. The parts that are currently done badly, late at night, or not at all.
+    </p>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="section" id="capabilities">
+  <div class="section-inner">
+    <p class="section-label fade-up">Five capabilities</p>
+    <h2 class="section-headline fade-up">Built around one test:<br><em>does this give back mental space?</em></h2>
+    <p class="section-lede fade-up">If a feature adds capability but also adds load, it fails and does not ship.</p>
+
+    <div class="capabilities-list fade-up" id="capList">
+
+      <div class="cap-item open" data-cap="0">
+        <div class="cap-header" onclick="toggleCap(this)">
+          <span class="cap-num">1</span>
+          <div class="cap-title-wrap">
+            <div class="cap-title">Effortless capture <span class="cap-badge">First to build</span></div>
+            <div class="cap-subtitle">The load starts at the front door — so the front door must be wide open</div>
+          </div>
+          <div class="cap-toggle">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="cap-body">
+          <ul>
+            <li>Drop anything — a scanned letter, a phone photo of a prescription, a forwarded email, a PDF discharge summary. The app accepts it raw and does the sorting itself.</li>
+            <li>The AI reads it, not you. On ingest: who it is from, what it concerns, any dates, any actions, any medication changes. You never fill in a form to file something.</li>
+            <li>Voice-first capture for moments that matter. A held-button voice note that transcribes and files — for the observation you had in the car park after the appointment.</li>
+            <li>A forgiving inbox. Anything uncertain lands in one calm place, never lost, never demanding. You triage only when you have a moment.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cap-item" data-cap="1">
+        <div class="cap-header" onclick="toggleCap(this)">
+          <span class="cap-num">2</span>
+          <div class="cap-title-wrap">
+            <div class="cap-title">The dashboard <span class="cap-badge">First to build</span></div>
+            <div class="cap-subtitle">One calm surface. The whole picture. Relief, not a wall of data</div>
+          </div>
+          <div class="cap-toggle">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="cap-body">
+          <ul>
+            <li>Organised around the person you care for — not around document types or system categories.</li>
+            <li>A living timeline: appointments, letters, medication changes, your own notes on one chronological spine. For the first time, the whole journey in one place.</li>
+            <li>Today, and only today, by default. What matters now. Depth is available but never forced. The app never makes you feel behind.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cap-item" data-cap="2">
+        <div class="cap-header" onclick="toggleCap(this)">
+          <span class="cap-num">3</span>
+          <div class="cap-title-wrap">
+            <div class="cap-title">The dotted lines</div>
+            <div class="cap-subtitle">The intelligence that is genuinely missing — connections that fall between teams</div>
+          </div>
+          <div class="cap-toggle">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="cap-body">
+          <ul>
+            <li>Cross-source pattern surfacing: when the neurology letter and the physiotherapy note might be related, the app raises it gently — <em>"the physio noted increased dizziness in March. The new blood-pressure medication started in February. Worth asking about together."</em></li>
+            <li>Always a question, never a diagnosis. The inviolable rule: the app surfaces, the clinician decides. Every connection is "worth raising," never "this is what's wrong."</li>
+            <li>Timeline-aware — many connections are temporal. The app holds the dated record no single clinician has.</li>
+            <li>Carer-controllable. Dismiss a prompt, and the app learns. The goal is a small number of genuinely useful nudges a week, not a stream of anxiety-inducing noise.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cap-item" data-cap="3">
+        <div class="cap-header" onclick="toggleCap(this)">
+          <span class="cap-num">4</span>
+          <div class="cap-title-wrap">
+            <div class="cap-title">The question builder <span class="cap-badge">Live demo below</span></div>
+            <div class="cap-subtitle">Closing the asymmetry — the right questions, ready before you walk in</div>
+          </div>
+          <div class="cap-toggle">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="cap-body">
+          <ul>
+            <li>Per-appointment question lists built from what has happened since the last visit, what is unresolved, and what connections the app has noticed. You walk in prepared instead of remembering on the drive home.</li>
+            <li>Plain-language translation. Clinical letters get an optional plain-English summary. Your observations get help being phrased the way a clinician will engage with — turning <em>"he's just not right"</em> into something specific and usable.</li>
+            <li>Capture the answers too. A simple way to record what the clinician said, so the loop closes and the next question list builds on it.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cap-item" data-cap="4">
+        <div class="cap-header" onclick="toggleCap(this)">
+          <span class="cap-num">5</span>
+          <div class="cap-title-wrap">
+            <div class="cap-title">Action planning</div>
+            <div class="cap-subtitle">Turning a pile into a path — the "what's next" thinking, done for you</div>
+          </div>
+          <div class="cap-toggle">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="cap-body">
+          <ul>
+            <li>Extracted actions become a gentle plan — referrals to chase, forms to return, medications to reorder — pulled automatically from letters and notes, with the app doing the "what's next" thinking.</li>
+            <li>Chasing support: tracks what has been promised, by whom, and when, and flags what has gone quiet. So you know what to push on without holding it all in your head.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- QUESTION BUILDER DEMO -->
+<section class="demo-section" id="demo">
+  <div class="demo-inner">
+    <p class="section-label fade-up">Live demonstration</p>
+    <h2 class="section-headline fade-up">The question builder</h2>
+    <p class="section-lede fade-up" style="margin-bottom:36px;">
+      The 2am problem: knowing what to ask, and having it ready in the room. Describe the upcoming appointment and what you have been noticing — and the app assembles a prioritised question list to walk in with.
+    </p>
+
+    <div class="demo-card fade-up">
+      <div class="demo-card-header">
+        <div class="demo-card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+            <path d="M12 8v4l3 3" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="demo-card-title">Before your appointment</div>
+          <div class="demo-card-subtitle">Powered by Assistiv AI · Questions only, never diagnoses</div>
+        </div>
+        <div class="demo-live-badge">
+          <div class="demo-live-dot"></div>
+          Live AI
+        </div>
+      </div>
+
+      <div class="demo-body">
+
+        <div class="demo-step">
+          <div class="demo-step-label"><span>1</span> Who are you seeing?</div>
+          <div class="specialist-grid" id="specGrid">
+            <button class="spec-btn" onclick="selectSpec(this, 'Neurologist')">🧠 Neurologist</button>
+            <button class="spec-btn" onclick="selectSpec(this, 'GP / Family Doctor')">🩺 GP</button>
+            <button class="spec-btn" onclick="selectSpec(this, 'Physiotherapist')">🦵 Physiotherapist</button>
+            <button class="spec-btn" onclick="selectSpec(this, 'Occupational Therapist')">🏠 OT</button>
+            <button class="spec-btn" onclick="selectSpec(this, 'Care Coordinator')">📋 Care Coordinator</button>
+            <button class="spec-btn" onclick="selectSpec(this, 'Consultant Geriatrician')">👴 Geriatrician</button>
+          </div>
+        </div>
+
+        <div class="demo-step">
+          <div class="demo-step-label"><span>2</span> What have you been noticing lately?</div>
+          <textarea
+            id="observations"
+            class="observations-area"
+            placeholder="Write in plain words — what you have seen, what has changed, what worries you. For example: he has seemed more confused in the afternoons since starting the new tablet last month. He had a fall on Tuesday. The discharge letter mentioned a follow-up referral but I never heard anything..."
+            rows="4"
+          ></textarea>
+        </div>
+
+        <button class="build-btn" id="buildBtn" onclick="buildQuestions()">
+          <span id="buildBtnText">Build my question list</span>
+          <div id="buildSpinner" class="spinner" style="display:none"></div>
+        </button>
+
+        <div class="error-msg" id="errorMsg"></div>
+
+        <div class="results-area" id="resultsArea">
+          <div class="results-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#c4702a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="results-header-title">Your question list</span>
+            <span class="results-header-sub">Ask your clinician these</span>
+          </div>
+          <ol class="question-list" id="questionList"></ol>
+          <div class="results-footer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            These are questions to raise — not clinical advice. The clinician who knows the full picture decides. Your observations are yours and are not stored.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN PHILOSOPHY -->
+<section class="principles">
+  <div class="principles-inner">
+    <p class="section-label fade-up">Design philosophy</p>
+    <h2 class="section-headline fade-up"><em>Calm</em> is the primary design goal</h2>
+    <p class="section-lede fade-up">This app is used by people in a state of stress and fatigue. The design's first duty is to lower the heart rate, not to impress.</p>
+    <div class="principles-grid fade-up">
+      <div class="principle-card">
+        <div class="principle-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="principle-title">The AI is felt, not seen</div>
+        <div class="principle-body">Intelligence shows up as a sorted inbox, a ready question list, a gently surfaced connection — not as a chatbot to operate. The best version rarely makes you talk to an AI; it presents a calmer, clearer world.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 22c6-4 8-8 8-12a8 8 0 10-16 0c0 4 2 8 8 12z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="principle-title">Plain words throughout</div>
+        <div class="principle-body">Everything named by what you recognise and control: "letters," "appointments," "things to ask," "what's coming up." Never by how the system is built. No clinical coldness, no system-speak.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="principle-title">Trustworthy by feel</div>
+        <div class="principle-body">The app holds intimate medical information about someone vulnerable. It must feel private and solid: clear about what it holds, clear that it is yours, never doing anything surprising with the data.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD SEQUENCE -->
+<section class="build">
+  <div class="build-inner">
+    <p class="section-label fade-up">How we are building it</p>
+    <h2 class="section-headline fade-up">Start with the smallest thing<br>that already removes load</h2>
+    <p class="section-lede fade-up" style="margin-bottom:52px;">The question builder and the handover pack are, on their own, a product worth having — they solve the most real and immediate problems with the lowest regulatory exposure. Everything else follows.</p>
+
+    <div class="build-steps fade-up">
+      <div class="build-step">
+        <div class="step-dot done">✓</div>
+        <div class="step-content">
+          <div class="step-title">Concept and clinical grounding</div>
+          <div class="step-desc">Shaped around a real carer's account. Validated against the lived experience of caring for someone with a brain injury. Ethical boundaries — especially the medical-device line — defined from the first sentence.</div>
+          <span class="step-status status-live">Complete</span>
+        </div>
+      </div>
+      <div class="build-step">
+        <div class="step-dot">2</div>
+        <div class="step-content">
+          <div class="step-title">Capture layer + living timeline</div>
+          <div class="step-desc">Drop a document, take a photo, dictate a voice note. The AI reads it, names it, places it on the timeline. The handover pack — one tap, the whole story — ships with this.</div>
+          <span class="step-status status-next">Building next</span>
+        </div>
+      </div>
+      <div class="build-step">
+        <div class="step-dot">3</div>
+        <div class="step-content">
+          <div class="step-title">Question builder (fully integrated)</div>
+          <div class="step-desc">Questions drawn from the actual record — recent changes, unresolved threads, surfaced connections — not just from what you type in. The demo above is the seed of this.</div>
+          <span class="step-status status-future">Follows</span>
+        </div>
+      </div>
+      <div class="build-step">
+        <div class="step-dot">4</div>
+        <div class="step-content">
+          <div class="step-title">The dotted lines</div>
+          <div class="step-desc">Cross-source pattern surfacing, tuned conservatively, built on top of a product that is already trusted and already proven to reduce load. The differentiator, built last and most carefully.</div>
+          <span class="step-status status-future">Later</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="nav-logo-mark" style="opacity:.7">
+      <span class="nlm-core" style="background:var(--amber)"></span>
+      <span class="nlm-r1" style="border-color:var(--amber)"></span>
+      <span class="nlm-r2" style="border-color:var(--amber)"></span>
+    </div>
+    <span class="footer-name">assistiv.tools</span>
+  </div>
+  <p class="footer-tagline">Community screening tools for frailty and carer support</p>
+  <div class="footer-links">
+    <a href="/">All tools</a>
+    <a href="https://www.assistiv.cloud" target="_blank" rel="noopener">assistiv.cloud</a>
+    <a href="https://www.assistiv.co" target="_blank" rel="noopener">assistiv.co</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/accessibility.html">Accessibility</a>
+  </div>
+  <p class="footer-legal">
+    Carer Companion is a concept prototype and is not a medical device.<br>
+    It does not provide clinical advice, diagnosis, or treatment recommendations.<br>
+    © 2026 Assistiv Systems Limited. Company No. 17082597. Faversham, Kent.
+  </p>
+</footer>
+
+<script>
+// ── CAPABILITY ACCORDION ──
+function toggleCap(header) {
+  const item = header.closest('.cap-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.cap-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── SPECIALIST SELECTION ──
+let selectedSpec = '';
+function selectSpec(btn, label) {
+  document.querySelectorAll('.spec-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedSpec = label;
+}
+
+// ── QUESTION BUILDER ──
+async function buildQuestions() {
+  const observations = document.getElementById('observations').value.trim();
+  const btn = document.getElementById('buildBtn');
+  const btnText = document.getElementById('buildBtnText');
+  const spinner = document.getElementById('buildSpinner');
+  const resultsArea = document.getElementById('resultsArea');
+  const questionList = document.getElementById('questionList');
+  const errorMsg = document.getElementById('errorMsg');
+
+  errorMsg.classList.remove('visible');
+
+  if (!selectedSpec) {
+    errorMsg.textContent = 'Please select who you are seeing first.';
+    errorMsg.classList.add('visible'); return;
+  }
+  if (observations.length < 20) {
+    errorMsg.textContent = 'Please add a few words about what you have been noticing — even rough notes are fine.';
+    errorMsg.classList.add('visible'); return;
+  }
+
+  btn.disabled = true;
+  btnText.textContent = 'Building your question list…';
+  spinner.style.display = 'block';
+  resultsArea.classList.remove('visible');
+
+  const systemPrompt = `You are a supportive assistant helping an unpaid carer prepare for a medical appointment. Your only job is to generate a short list of clear, plain-English questions the carer can ask the specialist.
+
+INVIOLABLE RULES:
+- Generate questions only. Never diagnose, suggest what is wrong, or say two things are definitely connected.
+- Always frame as "worth asking" or "it might be helpful to ask" — the clinician decides.
+- Maximum 5 questions. Prioritise by importance.
+- Plain language: no jargon, no clinical coldness.
+- Each question should have one short sentence of context explaining why it is worth raising (under 20 words).
+- If the carer mentions something potentially time-sensitive (a fall, sudden change, a missing referral), put that question first.
+
+Respond ONLY with a JSON object, no preamble, no backticks:
+{
+  "questions": [
+    { "question": "...", "context": "..." },
+    ...
+  ]
+}`;
+
+  const userPrompt = `I have an appointment with: ${selectedSpec}
+
+What I have been noticing:
+${observations}
+
+Please build my question list for this appointment.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+
+    const data = await response.json();
+    const raw = data.content?.find(b => b.type === 'text')?.text || '';
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+
+    questionList.innerHTML = '';
+    parsed.questions.forEach((q, i) => {
+      const li = document.createElement('li');
+      li.className = 'question-item';
+      li.style.animationDelay = `${i * 0.08}s`;
+      li.innerHTML = `
+        <span class="q-num">${i + 1}</span>
+        <div>
+          <div class="q-text">${q.question}</div>
+          ${q.context ? `<div class="q-context">${q.context}</div>` : ''}
+        </div>
+      `;
+      questionList.appendChild(li);
+    });
+
+    resultsArea.classList.add('visible');
+
+  } catch (err) {
+    errorMsg.textContent = 'Something went wrong building the list. Please try again.';
+    errorMsg.classList.add('visible');
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    btnText.textContent = 'Rebuild question list';
+    spinner.style.display = 'none';
+  }
+}
+
+// ── SCROLL ANIMATIONS ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
