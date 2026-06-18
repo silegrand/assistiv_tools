@@ -775,6 +775,169 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* CLUSTER PREVIEW CARDS */
+  .cluster-preview-link {
+    display: block;
+    margin-top: 1.5rem;
+    border: 1px solid var(--amber-mid);
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .cluster-preview-link:hover {
+    border-color: var(--amber);
+    box-shadow: 0 4px 18px rgba(28,24,20,0.1);
+  }
+  .cpv-topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--amber-mid);
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .cpv-topbar-left { display: flex; align-items: center; gap: 0.65rem; }
+  .cpv-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--amber-light);
+    border: 1.5px solid var(--amber-mid);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.55rem; font-weight: 700;
+    color: var(--amber-dark);
+    flex-shrink: 0;
+  }
+  .cpv-name { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
+  .cpv-meta { font-family: 'DM Sans', sans-serif; font-size: 0.6rem; color: var(--ink-light); }
+  .cpv-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--amber-light);
+    color: var(--amber-dark);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    border: 1px solid var(--amber-mid);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .cpv-pill-flag { background: rgba(158,84,18,0.08); color: #7a3c0a; border-color: rgba(158,84,18,0.22); }
+  .cpv-pill-elig { background: rgba(45,107,71,0.07); color: #2d6b47; border-color: rgba(45,107,71,0.2); }
+  .cpv-tabs {
+    background: var(--white);
+    border-bottom: 1px solid var(--amber-mid);
+    padding: 0 1rem;
+    display: flex; gap: 0;
+  }
+  .cpv-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.06em;
+    color: var(--ink-light);
+    padding: 0.5rem 0.75rem;
+    border-bottom: 2px solid transparent;
+  }
+  .cpv-tab-active { color: var(--amber); border-bottom-color: var(--amber); }
+  .cpv-body { background: var(--ground); padding: 0.75rem 1rem; }
+  .cpv-row {
+    display: flex;
+    gap: 0.65rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--amber-mid);
+    align-items: flex-start;
+  }
+  .cpv-row-last { border-bottom: none; }
+  .cpv-row-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: var(--amber-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; flex-shrink: 0;
+  }
+  .cpv-row-icon-flag { background: rgba(158,84,18,0.1); }
+  .cpv-row-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 0.15rem;
+  }
+  .cpv-row-value { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--ink); line-height: 1.4; }
+  .cpv-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem; padding: 0.1rem 0.4rem; border-radius: 3px;
+  }
+  .cpv-tag-flag { background: rgba(158,84,18,0.1); color: #7a3c0a; }
+  .cpv-tag-ok { background: rgba(45,107,71,0.08); color: #2d6b47; }
+  .cpv-tag-prompted { background: var(--amber-light); color: var(--amber-dark); border: 1px solid var(--amber-mid); }
+  .cpv-tag-carer { background: rgba(28,24,20,0.06); color: var(--ink-light); border: 1px solid var(--amber-mid); }
+  .cpv-action-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem; font-weight: 700;
+    color: var(--amber-dark);
+    background: var(--amber-light);
+    border: 1px solid var(--amber-mid);
+    padding: 0.2rem 0.6rem; border-radius: 5px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .cpv-footer {
+    background: var(--white);
+    border-top: 1px solid var(--amber-mid);
+    padding: 0.55rem 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cpv-footer-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-light); }
+  .cpv-footer-cta { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--amber-dark); }
+
+  /* C3 flag variants */
+  .cpv-flag { border-radius: 6px; overflow: hidden; margin-bottom: 0.5rem; }
+  .cpv-flag:last-child { margin-bottom: 0; }
+  .cpv-flag-open { border: 1px solid rgba(158,84,18,0.25); }
+  .cpv-flag-routed { border: 1px solid rgba(24,88,153,0.2); }
+  .cpv-flag-header {
+    padding: 0.5rem 0.75rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .cpv-flag-open .cpv-flag-header { background: rgba(158,84,18,0.06); }
+  .cpv-flag-routed .cpv-flag-header { background: rgba(24,88,153,0.05); }
+  .cpv-flag-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .cpv-flag-dot-open { background: var(--amber); }
+  .cpv-flag-dot-routed { background: #185899; }
+  .cpv-flag-name { font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 700; color: var(--ink); flex: 1; line-height: 1.35; }
+  .cpv-flag-date { font-family: 'DM Mono', monospace; font-size: 0.55rem; color: var(--ink-light); white-space: nowrap; }
+  .cpv-flag-footer { padding: 0.45rem 0.75rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+  .cpv-flag-status { font-family: 'DM Mono', monospace; font-size: 0.57rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.45rem; border-radius: 3px; }
+  .cpv-flag-status-open { background: rgba(158,84,18,0.08); color: #7a3c0a; border: 1px solid rgba(158,84,18,0.2); }
+  .cpv-flag-status-routed { background: rgba(24,88,153,0.07); color: #185899; border: 1px solid rgba(24,88,153,0.18); }
+
+  /* C4 question builder */
+  .cpv-question {
+    display: flex; gap: 0.6rem;
+    background: var(--white);
+    border: 1px solid var(--amber-mid);
+    border-radius: 5px;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.45rem;
+    align-items: flex-start;
+  }
+  .cpv-question-last { margin-bottom: 0; }
+  .cpv-q-num { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--amber); font-weight: 700; flex-shrink: 0; min-width: 18px; padding-top: 1px; }
+  .cpv-q-text { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--ink); line-height: 1.45; flex: 1; }
+
+  /* C5 entitlement grid */
+  .cpv-ent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+  .cpv-ent-card {
+    background: var(--white);
+    border: 1px solid var(--amber-mid);
+    border-radius: 6px;
+    padding: 0.75rem;
+  }
+  .cpv-ent-icon { font-size: 0.95rem; margin-bottom: 0.35rem; }
+  .cpv-ent-name { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 0.35rem; }
+  .cpv-ent-status { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.1rem 0.4rem; border-radius: 3px; display: inline-block; }
+  .cpv-ent-eligible { background: rgba(45,107,71,0.08); color: #2d6b47; border: 1px solid rgba(45,107,71,0.18); }
+  .cpv-ent-check { background: rgba(122,90,10,0.08); color: #7a5a0a; border: 1px solid rgba(122,90,10,0.2); }
+  .cpv-ent-review { background: rgba(24,88,153,0.07); color: #185899; border: 1px solid rgba(24,88,153,0.18); }
 </style>
 </head>
 <body>
@@ -1076,6 +1239,51 @@
           <strong>Design constraint</strong>
           <p>These tools must be as close to zero-effort data entry as possible. If the carer has to spend twenty minutes maintaining the record, the tool has failed. The friction of keeping the record must be lower than the friction of not keeping it. This cluster is also the foundation everything else depends on, Clusters 3 and 5 in particular cannot work without it.</p>
         </div>
+        <a href="/carer-cluster-01.html" class="cluster-preview-link">
+          <div class="cpv-topbar">
+            <div class="cpv-topbar-left">
+              <div class="cpv-avatar">MH</div>
+              <div>
+                <div class="cpv-name">Michael Henderson</div>
+                <div class="cpv-meta">Stroke · Cardiology · Respiratory · 9 departments</div>
+              </div>
+            </div>
+            <div class="cpv-pill">3 open flags</div>
+          </div>
+          <div class="cpv-tabs">
+            <div class="cpv-tab cpv-tab-active">Overview</div>
+            <div class="cpv-tab">Documents</div>
+            <div class="cpv-tab">Appointments</div>
+            <div class="cpv-tab">Symptoms</div>
+          </div>
+          <div class="cpv-body">
+            <div class="cpv-row">
+              <div class="cpv-row-icon">🩺</div>
+              <div>
+                <div class="cpv-row-label">Conditions</div>
+                <div class="cpv-row-value">Ischaemic stroke · Coronary artery disease · Sleep apnoea</div>
+              </div>
+            </div>
+            <div class="cpv-row">
+              <div class="cpv-row-icon cpv-row-icon-flag">💊</div>
+              <div>
+                <div class="cpv-row-label">Medications</div>
+                <div class="cpv-row-value">Apixaban · Ramipril · Atorvastatin · CPAP · <span class="cpv-tag cpv-tag-flag">2 flagged</span></div>
+              </div>
+            </div>
+            <div class="cpv-row cpv-row-last">
+              <div class="cpv-row-icon">📅</div>
+              <div>
+                <div class="cpv-row-label">Next appointment</div>
+                <div class="cpv-row-value">Cardiology · 24 Jul 2026 · <span class="cpv-tag cpv-tag-ok">Notepad ready</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="cpv-footer">
+            <span class="cpv-footer-label">Concept tool — see full detail</span>
+            <span class="cpv-footer-cta">Explore →</span>
+          </div>
+        </a>
       </div>
     </div>
 
@@ -1097,6 +1305,44 @@
           <strong>Design constraint</strong>
           <p>This cluster requires enough understanding of where the carer is in the journey to surface relevant information at the right time. That means some form of lightweight situational awareness, not a lengthy assessment, but enough signal to know whether they are in the acute phase, the marathon, or approaching a transition.</p>
         </div>
+        <a href="/carer-cluster-02.html" class="cluster-preview-link">
+          <div class="cpv-topbar">
+            <div class="cpv-topbar-left">
+              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:500;color:var(--ink);">Surfaced for you now</div>
+            </div>
+            <div class="cpv-pill">Stage 02 — Immersion</div>
+          </div>
+          <div class="cpv-body">
+            <div class="cpv-row">
+              <div class="cpv-row-icon">🏛️</div>
+              <div style="flex:1;">
+                <div class="cpv-row-label">Assessment</div>
+                <div class="cpv-row-value">Carer's assessment — Kent County Council</div>
+              </div>
+              <div class="cpv-action-btn">Request →</div>
+            </div>
+            <div class="cpv-row">
+              <div class="cpv-row-icon">💷</div>
+              <div style="flex:1;">
+                <div class="cpv-row-label">Grant</div>
+                <div class="cpv-row-value">Carers Trust emergency fund</div>
+              </div>
+              <div class="cpv-action-btn">Apply →</div>
+            </div>
+            <div class="cpv-row cpv-row-last">
+              <div class="cpv-row-icon">👥</div>
+              <div style="flex:1;">
+                <div class="cpv-row-label">Peer support</div>
+                <div class="cpv-row-value">Stroke carer peer group — Faversham</div>
+              </div>
+              <div class="cpv-action-btn">Contact →</div>
+            </div>
+          </div>
+          <div class="cpv-footer">
+            <span class="cpv-footer-label">Concept tool — see full detail</span>
+            <span class="cpv-footer-cta">Explore →</span>
+          </div>
+        </a>
       </div>
     </div>
 
@@ -1118,6 +1364,41 @@
           <strong>Safety boundary — absolute</strong>
           <p>These tools organise, flag, and prompt. They do not interpret, reassure, or resolve. A concern surfaced is a concern open until a qualified professional closes it. The tool never suggests searching online as a response to a clinical concern. A flag without a route to a professional is a burden, not a tool.</p>
         </div>
+        <a href="/carer-cluster-03.html" class="cluster-preview-link">
+          <div class="cpv-topbar">
+            <div class="cpv-topbar-left">
+              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:500;color:var(--ink);">Concerns log</div>
+            </div>
+            <div class="cpv-pill cpv-pill-flag">2 open · 1 routed</div>
+          </div>
+          <div class="cpv-body">
+            <div class="cpv-flag cpv-flag-open">
+              <div class="cpv-flag-header">
+                <div class="cpv-flag-dot cpv-flag-dot-open"></div>
+                <div class="cpv-flag-name">Potential medication conflict — Apixaban &amp; Naproxen</div>
+                <div class="cpv-flag-date">Today</div>
+              </div>
+              <div class="cpv-flag-footer">
+                <span class="cpv-flag-status cpv-flag-status-open">Open — not reviewed</span>
+                <span class="cpv-action-btn">Contact pharmacist →</span>
+              </div>
+            </div>
+            <div class="cpv-flag cpv-flag-routed">
+              <div class="cpv-flag-header">
+                <div class="cpv-flag-dot cpv-flag-dot-routed"></div>
+                <div class="cpv-flag-name">Symptom gap — word-finding difficulty not in Cardiology record</div>
+                <div class="cpv-flag-date">12 Jun</div>
+              </div>
+              <div class="cpv-flag-footer">
+                <span class="cpv-flag-status cpv-flag-status-routed">Routed — awaiting GP confirmation</span>
+              </div>
+            </div>
+          </div>
+          <div class="cpv-footer">
+            <span class="cpv-footer-label">Concept tool — see full detail</span>
+            <span class="cpv-footer-cta">Explore →</span>
+          </div>
+        </a>
       </div>
     </div>
 
@@ -1139,6 +1420,36 @@
           <strong>Design constraint</strong>
           <p>Communication tools need to be condition-aware to be useful. A prompt that helps a stroke carer prepare for a neurology appointment looks different from one that helps a dementia carer prepare for a memory clinic review. The tool needs enough clinical context to generate relevant prompts without requiring the carer to build that context themselves.</p>
         </div>
+        <a href="/carer-cluster-04.html" class="cluster-preview-link">
+          <div class="cpv-topbar">
+            <div class="cpv-topbar-left">
+              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:500;color:var(--ink);">Preparing for: Cardiology follow-up</div>
+            </div>
+            <div class="cpv-pill">6 days away</div>
+          </div>
+          <div class="cpv-body">
+            <div class="cpv-row-label" style="margin-bottom:0.5rem;">Questions for this appointment</div>
+            <div class="cpv-question">
+              <span class="cpv-q-num">Q1</span>
+              <span class="cpv-q-text">Is it safe to take Naproxen alongside Apixaban? We have flagged this as an open concern.</span>
+              <span class="cpv-tag cpv-tag-prompted">Prompted</span>
+            </div>
+            <div class="cpv-question">
+              <span class="cpv-q-num">Q2</span>
+              <span class="cpv-q-text">Word-finding difficulty noted at Neurology — should it be in the Cardiology record?</span>
+              <span class="cpv-tag cpv-tag-prompted">Prompted</span>
+            </div>
+            <div class="cpv-question cpv-question-last">
+              <span class="cpv-q-num">Q3</span>
+              <span class="cpv-q-text">Blood pressure 148–155 systolic consistently in the mornings — does this need a medication review?</span>
+              <span class="cpv-tag cpv-tag-carer">Carer</span>
+            </div>
+          </div>
+          <div class="cpv-footer">
+            <span class="cpv-footer-label">Concept tool — see full detail</span>
+            <span class="cpv-footer-cta">Explore →</span>
+          </div>
+        </a>
       </div>
     </div>
 
@@ -1160,6 +1471,42 @@
           <strong>Design constraint</strong>
           <p>This cluster is almost as dependent on Cluster 1 as Cluster 3. A proactive entitlement alert is only as good as the recorded information about the carer's situation. Financial and administrative tools should not operate independently of the underlying record, they read from it.</p>
         </div>
+        <a href="/carer-cluster-05.html" class="cluster-preview-link">
+          <div class="cpv-topbar">
+            <div class="cpv-topbar-left">
+              <div style="font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:500;color:var(--ink);">Entitlements surfaced from your record</div>
+            </div>
+            <div class="cpv-pill cpv-pill-elig">£4,200–£7,800 potential</div>
+          </div>
+          <div class="cpv-body">
+            <div class="cpv-ent-grid">
+              <div class="cpv-ent-card">
+                <div class="cpv-ent-icon">💷</div>
+                <div class="cpv-ent-name">Personal Independence Payment</div>
+                <span class="cpv-ent-status cpv-ent-eligible">Likely eligible</span>
+              </div>
+              <div class="cpv-ent-card">
+                <div class="cpv-ent-icon">💊</div>
+                <div class="cpv-ent-name">Prescription prepayment certificate</div>
+                <span class="cpv-ent-status cpv-ent-eligible">Eligible now</span>
+              </div>
+              <div class="cpv-ent-card">
+                <div class="cpv-ent-icon">👤</div>
+                <div class="cpv-ent-name">Carer's Allowance</div>
+                <span class="cpv-ent-status cpv-ent-check">Check eligibility</span>
+              </div>
+              <div class="cpv-ent-card">
+                <div class="cpv-ent-icon">🏗️</div>
+                <div class="cpv-ent-name">Disabled Facilities Grant</div>
+                <span class="cpv-ent-status cpv-ent-review">Review before planning</span>
+              </div>
+            </div>
+          </div>
+          <div class="cpv-footer">
+            <span class="cpv-footer-label">Concept tool — see full detail</span>
+            <span class="cpv-footer-cta">Explore →</span>
+          </div>
+        </a>
       </div>
     </div>
 
