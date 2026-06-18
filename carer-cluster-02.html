@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coordination &amp; Navigation — Carer Tools · Assistiv Tools</title>
+  <meta name="description" content="Cluster 02 of the Assistiv Carer Framework. Proactive surfacing of what exists — grants, assessments, groups, next steps — before the carer reaches breaking point. A conceptual tool for unpaid carers navigating complex NHS pathways.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Nunito:wght@300;400;500;600;700&family=Cabinet+Grotesk:wght@500;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/brand.css">
+
+<style>
+:root {
+  --brand:        #ED8C36;
+  --brand-dark:   #9e5412;
+  --brand-mid:    #c4702a;
+  --brand-pale:   #fdf3e3;
+  --sage:         #ED8C36;
+  --sage-dark:    #9e5412;
+  --sage-pale:    #fdf3e3;
+  --amber:        #ED8C36;
+  --amber-pale:   #FDF6EE;
+  --amber-light:  rgba(237,140,54,0.14);
+  --cream:        #FAF7F2;
+  --white:        #FFFFFF;
+  --charcoal:     #1C2B26;
+  --text-sec:     #5A6B5A;
+  --text-faint:   rgba(28,43,38,0.38);
+  --border:       rgba(237,140,54,0.18);
+  --border-soft:  rgba(28,43,38,0.08);
+  --shadow:       0 2px 18px rgba(28,43,38,0.07);
+  --shadow-lg:    0 8px 34px rgba(28,43,38,0.14);
+  --r:            14px;
+  --r-sm:         8px;
+  --ff-display:   'Cormorant Garamond', Georgia, serif;
+  --ff-body:      'Nunito', sans-serif;
+  --ff-mono:      'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff-body);
+  background: var(--cream);
+  color: var(--charcoal);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 0% 0%, rgba(237,140,54,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(196,112,42,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+h1,h2,h3,h4 { font-family: var(--ff-display); color: var(--charcoal); line-height: 1.15; }
+p { font-family: var(--ff-body); color: var(--text-sec); line-height: 1.78; }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1120px; margin: 0 auto; padding: 0 2rem; }
+section { position: relative; z-index: 1; }
+
+.section-label {
+  display: block;
+  font-family: var(--ff-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1rem;
+}
+.section-headline {
+  font-family: var(--ff-display);
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.85rem 2rem;
+  border-radius: 50px;
+  font-family: var(--ff-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.28s ease;
+  border: 2px solid transparent;
+  text-decoration: none;
+}
+.btn-primary { background: var(--sage); color: var(--white); border-color: var(--sage); }
+.btn-primary:hover { background: var(--sage-dark); border-color: var(--sage-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(158,84,18,0.28); }
+.btn-ghost { background: transparent; color: var(--charcoal); border-color: rgba(28,43,38,0.35); }
+.btn-ghost:hover { background: var(--charcoal); color: var(--white); border-color: var(--charcoal); transform: translateY(-2px); }
+
+.fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.10s; }
+.d2 { transition-delay: 0.20s; }
+.d3 { transition-delay: 0.30s; }
+.d4 { transition-delay: 0.40s; }
+.d5 { transition-delay: 0.50s; }
+
+/* ===== NAV ===== */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 2rem;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.assistiv-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+.assistiv-logo-mark { position: relative; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.assistiv-logo-dot { border-radius: 50%; position: absolute; }
+.assistiv-logo-core { width: 7px; height: 7px; background: #ED8C36; z-index: 2; }
+.assistiv-logo-r1   { width: 15px; height: 15px; border: 1.5px solid #ED8C36; opacity: 0.5; background: none; }
+.assistiv-logo-r2   { width: 24px; height: 24px; border: 1.5px solid #ED8C36; opacity: 0.22; background: none; }
+.assistiv-logo-wordmark { display: flex; flex-direction: column; gap: 1px; }
+.assistiv-logo-name { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; color: #0f2318; }
+.assistiv-logo-sub  { font-family: 'DM Mono', monospace; font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase; line-height: 1; color: #2d6b47; opacity: 0.75; }
+
+.nav-links { display: flex; align-items: center; gap: 1.8rem; list-style: none; }
+.nav-links a { font-family: var(--ff-body); font-size: 0.78rem; font-weight: 500; color: var(--text-sec); transition: color 0.2s; }
+.nav-links a:hover { color: var(--sage); }
+.nav-dropdown { position: relative; }
+.nav-dropdown > a { display: flex; align-items: center; gap: 0.3rem; }
+.nav-dropdown > a::after { content: ''; display: inline-block; width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent; border-top: 4px solid var(--text-sec); transition: transform 0.2s; margin-top: 1px; }
+.nav-dropdown.open > a::after { transform: rotate(180deg); border-top-color: var(--sage); }
+.nav-dropdown-menu { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: var(--white); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 28px rgba(28,43,38,0.10); min-width: 170px; padding: 0.6rem 0; list-style: none; z-index: 200; }
+.nav-dropdown-menu::before { content: ''; position: absolute; top: -8px; left: 0; right: 0; height: 8px; }
+.nav-dropdown.open .nav-dropdown-menu { display: block; }
+.nav-dropdown-menu li a { display: block; padding: 0.5rem 1.1rem; font-size: 0.78rem; font-weight: 500; color: var(--text-sec); white-space: nowrap; transition: background 0.15s, color 0.15s; }
+.nav-dropdown-menu li a:hover { background: var(--brand-pale); color: var(--brand-dark); }
+.nav-cta { font-family: var(--ff-body); font-size: 0.82rem; font-weight: 600; color: var(--white) !important; background: var(--sage); padding: 0.55rem 1.3rem; border-radius: 6px; transition: background 0.2s; white-space: nowrap; display: inline-block; text-decoration: none; }
+.nav-cta:hover { background: var(--sage-dark); }
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--charcoal); transition: all 0.3s; border-radius: 2px; }
+.mobile-nav { display: none; position: fixed; inset: 0; background: var(--cream); z-index: 998; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+.mobile-nav.open { display: flex; }
+.mobile-nav a { font-family: var(--ff-display); font-size: 2rem; font-weight: 300; color: var(--charcoal); transition: color 0.2s; }
+.mobile-nav a:hover { color: var(--sage); }
+.m-close { position: absolute; top: 1.4rem; right: 1.75rem; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--charcoal); font-family: var(--ff-body); }
+
+/* ===== ECO BANNER ===== */
+.eco-banner {
+  position: fixed;
+  top: 62px; left: 0; right: 0;
+  z-index: 999;
+  background: var(--brand-pale);
+  border-bottom: 1px solid rgba(237,140,54,0.22);
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.5rem;
+  font-family: var(--ff-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
+  white-space: nowrap;
+  flex-wrap: wrap;
+}
+.eco-banner-sep { opacity: 0.35; margin: 0 0.25rem; }
+.eco-banner a { color: var(--brand-mid); text-decoration: none; font-weight: 600; transition: color 0.15s; }
+.eco-banner a:hover { color: var(--brand-dark); text-decoration: underline; }
+
+/* ===== HERO ===== */
+#hero {
+  padding: 12rem 2rem 6rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.hero-cluster-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--amber-pale);
+  border: 1px solid rgba(237,140,54,0.3);
+  border-radius: 50px;
+  padding: 0.35rem 1rem;
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
+  margin-bottom: 1.5rem;
+}
+.hero-cluster-tag .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand); display: inline-block; }
+.hero-concept-badge {
+  display: inline-block;
+  background: rgba(28,43,38,0.06);
+  border: 1px solid rgba(28,43,38,0.12);
+  border-radius: 4px;
+  padding: 0.2rem 0.65rem;
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-sec);
+  margin-bottom: 1.5rem;
+}
+.hero-h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  max-width: 820px;
+}
+.hero-h1 em { font-style: italic; color: var(--sage); }
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--text-sec);
+  max-width: 680px;
+  line-height: 1.78;
+  margin-bottom: 2.5rem;
+}
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-quote {
+  margin-top: 3.5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border-soft);
+  max-width: 740px;
+}
+.hero-quote blockquote {
+  font-family: var(--ff-display);
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--charcoal);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+.hero-quote cite { font-family: var(--ff-body); font-size: 0.78rem; color: var(--text-sec); font-style: normal; }
+.hero-quote cite strong { color: var(--brand-dark); font-weight: 600; }
+
+/* ===== DISTINCTION ===== */
+#distinction {
+  background: var(--white);
+  border-top: 1px solid var(--border-soft);
+  padding: 6rem 0;
+}
+.distinction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+.distinction-left h2 { font-size: clamp(26px, 3vw, 40px); font-weight: 600; margin-bottom: 1.5rem; }
+.distinction-left p { margin-bottom: 1.25rem; }
+.lift-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--brand-pale);
+  border: 1px solid rgba(237,140,54,0.3);
+  border-radius: 6px;
+  padding: 0.45rem 1rem;
+  font-family: var(--ff-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+  margin-top: 0.5rem;
+}
+
+.compare-cards { display: flex; flex-direction: column; gap: 1rem; }
+.compare-card {
+  background: var(--cream);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r);
+  padding: 1.5rem;
+}
+.compare-card.active {
+  background: var(--white);
+  border-color: rgba(237,140,54,0.3);
+  box-shadow: var(--shadow);
+}
+.compare-card-label {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.compare-card.active .compare-card-label { color: var(--brand); }
+.compare-card:not(.active) .compare-card-label { color: var(--text-faint); }
+.compare-card h4 { font-family: var(--ff-display); font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+.compare-card.active h4 { color: var(--charcoal); }
+.compare-card:not(.active) h4 { color: rgba(28,43,38,0.7); }
+.compare-card p { font-size: 0.85rem; line-height: 1.65; }
+.compare-card.active p { color: var(--text-sec); }
+.compare-card:not(.active) p { color: var(--text-sec); }
+
+/* ===== FEATURES ===== */
+#features {
+  padding: 6rem 0;
+  background: var(--cream);
+}
+.features-intro { max-width: 680px; margin-bottom: 3rem; }
+.features-intro h2 { font-size: clamp(24px, 2.8vw, 38px); font-weight: 600; margin-bottom: 1rem; }
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.feature-card {
+  background: var(--white);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r);
+  padding: 1.5rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.feature-card:hover { border-color: rgba(237,140,54,0.3); box-shadow: var(--shadow); }
+.feature-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--brand-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+.feature-title { font-family: var(--ff-body); font-size: 0.92rem; font-weight: 700; color: var(--charcoal); margin-bottom: 0.4rem; }
+.feature-desc { font-size: 0.82rem; color: var(--text-sec); line-height: 1.65; }
+
+/* ===== JOURNEY ===== */
+#journey {
+  padding: 6rem 0;
+  background: var(--white);
+  border-top: 1px solid var(--border-soft);
+}
+.journey-intro { max-width: 680px; margin-bottom: 3rem; }
+.journey-intro h2 { font-size: clamp(24px, 2.8vw, 38px); font-weight: 600; margin-bottom: 1rem; }
+.journey-stages {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--cream);
+}
+.stage { padding: 1.25rem 1rem; border-right: 1px solid var(--border-soft); position: relative; }
+.stage:last-child { border-right: none; }
+.stage-num { font-family: var(--ff-mono); font-size: 0.6rem; letter-spacing: 0.12em; color: var(--text-faint); margin-bottom: 0.4rem; }
+.stage-name { font-family: var(--ff-body); font-size: 0.78rem; font-weight: 700; color: var(--charcoal); margin-bottom: 0.75rem; }
+.stage-bar-wrap { height: 5px; background: rgba(28,43,38,0.06); border-radius: 3px; overflow: hidden; margin-bottom: 0.5rem; }
+.stage-bar { height: 100%; border-radius: 3px; background: var(--brand); }
+.stage-label { font-family: var(--ff-mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.stage.peak { background: var(--brand-pale); }
+.stage.peak .stage-name { color: var(--brand-dark); }
+.stage.peak .stage-label { color: var(--brand-mid); }
+.stage.high .stage-label { color: var(--text-sec); }
+.stage.low .stage-bar { background: rgba(237,140,54,0.25); }
+.stage.low .stage-label { color: var(--text-faint); }
+.journey-note {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--cream);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--brand);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-size: 0.85rem;
+  color: var(--text-sec);
+  max-width: 820px;
+  line-height: 1.7;
+}
+.journey-note strong { color: var(--brand-dark); font-weight: 700; }
+
+/* ===== MOCK-UP ===== */
+#mockup {
+  padding: 6rem 0;
+  background: var(--cream);
+}
+.mockup-intro { max-width: 680px; margin-bottom: 3rem; }
+.mockup-intro h2 { font-size: clamp(24px, 2.8vw, 38px); font-weight: 600; margin-bottom: 1rem; }
+
+.app-frame {
+  background: var(--white);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.app-topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.app-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+.app-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--brand-pale);
+  border: 2px solid rgba(237,140,54,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+  flex-shrink: 0;
+}
+.app-person-name { font-family: var(--ff-body); font-size: 0.95rem; font-weight: 700; color: var(--charcoal); }
+.app-person-meta { font-family: var(--ff-body); font-size: 0.72rem; color: var(--text-sec); margin-top: 1px; }
+.journey-stage-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  background: var(--brand-pale);
+  color: var(--brand-dark);
+  border: 1px solid rgba(237,140,54,0.25);
+}
+.journey-stage-pill .pip { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); display: inline-block; }
+
+.app-body {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+  min-height: 480px;
+}
+
+/* Left panel — proactive surfacing */
+.surfacing-panel {
+  border-right: 1px solid var(--border-soft);
+  padding: 1.25rem 1.5rem;
+}
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+.panel-title {
+  font-family: var(--ff-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-mid);
+}
+.panel-count {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  color: var(--text-faint);
+}
+
+.surfaced-item {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-soft);
+  align-items: start;
+}
+.surfaced-item:last-child { border-bottom: none; }
+.surfaced-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.surfaced-icon.grant   { background: rgba(237,140,54,0.1); }
+.surfaced-icon.assess  { background: rgba(28,43,38,0.06); }
+.surfaced-icon.group   { background: rgba(196,112,42,0.08); }
+.surfaced-icon.benefit { background: rgba(237,140,54,0.12); }
+
+.surfaced-type {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.2rem;
+}
+.surfaced-name {
+  font-family: var(--ff-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+.surfaced-desc {
+  font-family: var(--ff-body);
+  font-size: 0.76rem;
+  color: var(--text-sec);
+  line-height: 1.5;
+}
+.surfaced-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: 0.4rem; }
+.stag {
+  font-family: var(--ff-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+}
+.stag-new    { background: rgba(237,140,54,0.12); color: var(--brand-dark); border: 1px solid rgba(237,140,54,0.22); }
+.stag-urgent { background: rgba(196,112,42,0.1); color: #7a3c0a; border: 1px solid rgba(196,112,42,0.2); }
+.stag-stage  { background: rgba(28,43,38,0.06); color: var(--text-sec); border: 1px solid rgba(28,43,38,0.1); }
+
+.action-btn {
+  display: inline-block;
+  font-family: var(--ff-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  background: var(--brand-pale);
+  color: var(--brand-dark);
+  border: 1px solid rgba(237,140,54,0.28);
+  white-space: nowrap;
+  cursor: default;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Right panel — activity log */
+.activity-panel {
+  background: var(--cream);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.activity-header {
+  font-family: var(--ff-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-mid);
+  margin-bottom: 1.1rem;
+}
+.activity-item {
+  position: relative;
+  padding-left: 1.25rem;
+  padding-bottom: 1.1rem;
+  margin-bottom: 0;
+}
+.activity-item::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  bottom: -4px;
+  width: 1px;
+  background: var(--border-soft);
+}
+.activity-item:last-child::before { display: none; }
+.activity-dot {
+  position: absolute;
+  left: 0; top: 6px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--brand);
+}
+.activity-dot.done { background: var(--brand); }
+.activity-dot.pending { border-color: rgba(28,43,38,0.2); }
+.activity-date {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  margin-bottom: 0.2rem;
+}
+.activity-title {
+  font-family: var(--ff-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 0.15rem;
+  line-height: 1.35;
+}
+.activity-detail {
+  font-family: var(--ff-body);
+  font-size: 0.72rem;
+  color: var(--text-sec);
+  line-height: 1.5;
+}
+.activity-status {
+  display: inline-block;
+  font-family: var(--ff-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+}
+.activity-status.actioned { background: rgba(237,140,54,0.1); color: var(--brand-dark); }
+.activity-status.open     { background: rgba(28,43,38,0.06); color: var(--text-sec); }
+.activity-status.pending  { background: rgba(28,43,38,0.04); color: var(--text-faint); }
+
+.concept-note {
+  background: rgba(28,43,38,0.04);
+  border-top: 1px solid var(--border-soft);
+  padding: 0.6rem 1.5rem;
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+/* ===== DESIGN CONSTRAINT ===== */
+#constraints {
+  padding: 6rem 0;
+  background: var(--white);
+  border-top: 1px solid var(--border-soft);
+}
+.constraints-intro { max-width: 680px; margin-bottom: 3rem; }
+.constraints-intro h2 { font-size: clamp(24px, 2.8vw, 38px); font-weight: 600; margin-bottom: 1rem; }
+.constraints-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.constraint-card {
+  background: var(--cream);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r);
+  padding: 1.75rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.constraint-card:hover { border-color: rgba(237,140,54,0.3); box-shadow: var(--shadow); }
+.constraint-num { font-family: var(--ff-mono); font-size: 0.65rem; letter-spacing: 0.14em; color: var(--brand); margin-bottom: 1rem; }
+.constraint-card h3 { font-family: var(--ff-display); font-size: 1.3rem; font-weight: 600; color: var(--charcoal); margin-bottom: 0.75rem; }
+.constraint-card p { font-size: 0.85rem; color: var(--text-sec); line-height: 1.7; }
+
+/* ===== BOUNDARY ===== */
+#boundary {
+  padding: 6rem 0;
+  background: var(--brand-pale);
+  border-top: 1px solid rgba(237,140,54,0.2);
+  border-bottom: 1px solid rgba(237,140,54,0.2);
+}
+.boundary-inner { max-width: 1120px; margin: 0 auto; padding: 0 2rem; }
+.boundary-inner .section-label { color: var(--brand-mid); }
+.boundary-inner h2 { font-size: clamp(24px, 2.8vw, 38px); font-weight: 600; color: var(--charcoal); margin-bottom: 1rem; }
+.boundary-inner > p { color: var(--text-sec); max-width: 640px; margin-bottom: 3rem; }
+.boundary-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+.boundary-col h4 { font-family: var(--ff-body); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 1.25rem; }
+.boundary-col.will h4 { color: var(--brand-dark); }
+.boundary-col.wont h4 { color: rgba(28,43,38,0.65); }
+.boundary-col.will { background: var(--white); border: 1px solid rgba(237,140,54,0.25); border-radius: var(--r); padding: 1.75rem; }
+.boundary-col.wont { background: rgba(28,43,38,0.04); border: 1px solid rgba(28,43,38,0.08); border-radius: var(--r); padding: 1.75rem; }
+.boundary-item { display: flex; gap: 0.75rem; margin-bottom: 1rem; align-items: start; }
+.boundary-arrow { font-size: 0.9rem; flex-shrink: 0; margin-top: 2px; }
+.boundary-col.will .boundary-arrow { color: var(--brand); }
+.boundary-col.wont .boundary-arrow { color: rgba(28,43,38,0.5); }
+.boundary-item-text strong { font-family: var(--ff-body); font-size: 0.875rem; font-weight: 700; display: block; margin-bottom: 2px; }
+.boundary-col.will .boundary-item-text strong { color: var(--charcoal); }
+.boundary-col.wont .boundary-item-text strong { color: rgba(28,43,38,0.75); }
+.boundary-item-text span { font-size: 0.8rem; line-height: 1.6; }
+.boundary-col.will .boundary-item-text span { color: var(--text-sec); }
+.boundary-col.wont .boundary-item-text span { color: var(--text-sec); }
+.boundary-test {
+  background: var(--white);
+  border: 1px solid rgba(237,140,54,0.3);
+  border-left: 4px solid var(--brand);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 1.5rem 2rem;
+}
+.boundary-test p { font-family: var(--ff-display); font-size: clamp(16px, 1.8vw, 22px); font-style: italic; color: var(--charcoal); line-height: 1.55; margin-bottom: 0.75rem; }
+.boundary-test cite { font-family: var(--ff-body); font-size: 0.72rem; color: var(--brand-mid); font-style: normal; }
+
+/* ===== CTA ===== */
+#cta {
+  padding: 6rem 0;
+  background: var(--white);
+  border-top: 1px solid var(--border-soft);
+}
+.cta-inner { max-width: 680px; }
+.cta-inner h2 { font-size: clamp(26px, 3vw, 40px); font-weight: 600; margin-bottom: 1rem; }
+.cta-inner p { margin-bottom: 2rem; }
+.cta-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.cluster-nav { margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--border-soft); }
+.cluster-nav-label { font-family: var(--ff-body); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1rem; }
+.cluster-pills { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.cluster-pill {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.4rem 1rem; border-radius: 50px;
+  font-family: var(--ff-body); font-size: 0.75rem; font-weight: 600;
+  border: 1px solid var(--border-soft); color: var(--text-sec);
+  transition: border-color 0.2s, color 0.2s; text-decoration: none;
+}
+.cluster-pill:hover { border-color: rgba(237,140,54,0.3); color: var(--brand-dark); }
+.cluster-pill.active { background: var(--brand-pale); border-color: rgba(237,140,54,0.3); color: var(--brand-dark); }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--white);
+  border-top: 1px solid rgba(237,140,54,0.15);
+  padding: 4rem 0 2.25rem;
+}
+.footer-top { display: grid; grid-template-columns: 220px 1fr; gap: 4rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border-soft); margin-bottom: 2rem; }
+.f-tagline { font-size: 0.82rem; color: var(--text-sec); line-height: 1.75; max-width: 220px; }
+.f-powered { display: block; font-size: 0.72rem; color: rgba(28,43,38,0.35); margin-top: 1.4rem; }
+.f-nav { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+.f-nav-col h5 { font-family: var(--ff-body); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brand-mid); margin-bottom: 1rem; }
+.f-nav-col a { display: block; font-size: 0.82rem; color: var(--text-sec); margin-bottom: 0.55rem; transition: color 0.2s; }
+.f-nav-col a:hover { color: var(--brand-dark); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.f-copy { font-size: 0.75rem; color: var(--text-faint); }
+.f-links { display: flex; gap: 1.5rem; }
+.f-links a { font-size: 0.75rem; color: var(--text-faint); transition: color 0.2s; }
+.f-links a:hover { color: var(--brand-dark); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 960px) {
+  .distinction-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .app-body { grid-template-columns: 1fr; }
+  .activity-panel { display: none; }
+  .constraints-grid { grid-template-columns: 1fr 1fr; }
+  .boundary-cols { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+  .f-nav { grid-template-columns: repeat(2,1fr); }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .journey-stages { grid-template-columns: repeat(3,1fr); }
+  .journey-stages .stage { border-bottom: 1px solid var(--border-soft); }
+}
+@media (max-width: 640px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .constraints-grid { grid-template-columns: 1fr; }
+  .journey-stages { grid-template-columns: repeat(2,1fr); }
+  .hero-btns { flex-direction: column; align-items: flex-start; }
+  #hero { padding: 10rem 1.5rem 4rem; }
+  .container { padding: 0 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="https://www.assistiv.tools/" class="assistiv-logo">
+      <div class="assistiv-logo-mark">
+        <div class="assistiv-logo-dot assistiv-logo-core"></div>
+        <div class="assistiv-logo-dot assistiv-logo-r1"></div>
+        <div class="assistiv-logo-dot assistiv-logo-r2"></div>
+      </div>
+      <div class="assistiv-logo-wordmark">
+        <span class="assistiv-logo-name">Assistiv</span>
+        <span class="assistiv-logo-sub">Tools</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="https://www.assistiv.tools/#problem">The Problem</a></li>
+      <li><a href="https://www.assistiv.tools/#how">How It Works</a></li>
+      <li><a href="https://www.assistiv.tools/#tools">The Tools</a></li>
+      <li><a href="https://www.assistiv.tools/carer-framework.html">Carer Framework</a></li>
+      <li class="nav-dropdown">
+        <a href="#ecosystem">Ecosystem</a>
+        <ul class="nav-dropdown-menu">
+          <li><a href="https://www.assistiv.cloud" target="_blank" rel="noopener">assistiv.cloud</a></li>
+          <li><a href="https://www.assistiv.services" target="_blank" rel="noopener">assistiv.services</a></li>
+          <li><a href="https://www.assistiv.co" target="_blank" rel="noopener">assistiv.co</a></li>
+        </ul>
+      </li>
+    </ul>
+    <a href="https://www.assistiv.tools/#contact" class="nav-cta">Get in touch</a>
+    <button class="hamburger" id="hbg" aria-label="Open navigation menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ECO BANNER -->
+<div class="eco-banner">
+  <span style="opacity:0.7;">Assistiv Ecosystem</span>
+  <span class="eco-banner-sep">·</span>
+  <span style="font-weight:700;">Carer Framework</span>
+  <span class="eco-banner-sep">·</span>
+  <a href="https://www.assistiv.tools/carer-framework.html">All five clusters →</a>
+  <span class="eco-banner-sep">·</span>
+  <a href="https://www.assistiv.cloud" target="_blank" rel="noopener">assistiv.cloud</a>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mob-nav">
+  <button class="m-close" id="mob-close">✕</button>
+  <a href="https://www.assistiv.tools/#problem">The Problem</a>
+  <a href="https://www.assistiv.tools/#how">How It Works</a>
+  <a href="https://www.assistiv.tools/#tools">The Tools</a>
+  <a href="https://www.assistiv.tools/carer-framework.html">Carer Framework</a>
+  <a href="https://www.assistiv.cloud" target="_blank" rel="noopener" style="font-size:1.3rem;opacity:0.6;">↳ assistiv.cloud</a>
+  <a href="https://www.assistiv.co" target="_blank" rel="noopener" style="font-size:1.3rem;opacity:0.6;">↳ assistiv.co</a>
+  <a href="https://www.assistiv.tools/#contact" class="btn btn-primary">Get in touch</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="fade-up">
+    <span class="hero-cluster-tag"><span class="dot"></span>Cluster 02 — Coordination &amp; Navigation</span>
+  </div>
+  <div class="fade-up d1" style="margin-top:0.5rem;">
+    <span class="hero-concept-badge">Conceptual tool — full build reserved for funded development</span>
+  </div>
+  <h1 class="hero-h1 fade-up d2">What comes next, who to contact,<br>and what exists to help — <em>before</em> hitting rock bottom.</h1>
+  <p class="hero-sub fade-up d3">The system does not volunteer information. Carers find grants, assessments, and support groups only by searching independently — often after the moment when they would have been most useful. This tool pushes what is relevant before the carer has to ask.</p>
+  <div class="hero-btns fade-up d4">
+    <a href="#mockup" class="btn btn-primary">See the concept →</a>
+    <a href="https://www.assistiv.tools/carer-framework.html" class="btn btn-ghost">Full framework</a>
+  </div>
+  <div class="hero-quote fade-up d5">
+    <blockquote>"She navigated signposting loops for hours, following contact leads only to be redirected endlessly. She found groups, grants, and assessments only by searching independently — often after the moment when they would have been most useful."</blockquote>
+    <cite>Primary source — <strong>carer of a stroke and cardiac surgery survivor, sole coordinator across nine NHS departments</strong></cite>
+  </div>
+</section>
+
+<!-- THE DISTINCTION -->
+<section id="distinction">
+  <div class="container">
+    <div class="distinction-grid">
+      <div class="distinction-left fade-up">
+        <span class="section-label">The core distinction</span>
+        <h2>A navigation tool is not a signposting directory.</h2>
+        <p>A directory waits to be searched. It places the burden of knowing what to look for on someone who is, by definition, in the worst position to know what exists.</p>
+        <p>A navigation tool pushes relevant information at the right moment in the journey — before the carer knows they need it. The difference is the difference between active and passive. Between arriving before the crisis and arriving after it.</p>
+        <p>Once a resource has been surfaced, the decision and the relationship belong to the carer. The tool makes action as easy as possible — a direct link, a template message, a record that the step was taken — but it does not make the decision for them.</p>
+        <div class="lift-badge">↑ Lift discovery — Enable action</div>
+      </div>
+      <div class="compare-cards fade-up d2">
+        <div class="compare-card active">
+          <div class="compare-card-label">Navigation tool — this</div>
+          <h4>Pushes what is relevant, when it is relevant</h4>
+          <p>Situational awareness of where the carer is in the journey. Resources, assessments, and entitlements surfaced automatically at the right stage — before the carer has to search for them.</p>
+        </div>
+        <div class="compare-card">
+          <div class="compare-card-label">Signposting directory — not this</div>
+          <h4>Waits to be searched by someone who doesn't know what exists</h4>
+          <p>Places the burden of knowing what to look for on the person who is least equipped to know. Available in theory. Inaccessible in practice. Reached only after the moment has passed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="features-intro fade-up">
+      <span class="section-label">What the tool does</span>
+      <h2>Proactive surfacing, then enabling action</h2>
+      <p>Six functions, working together. The tool does not make decisions for the carer — it removes the invisible barrier between the carer and the resources that exist to help them.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-up d1">
+        <div class="feature-icon">🧭</div>
+        <div class="feature-title">Journey-aware surfacing</div>
+        <div class="feature-desc">Resources, assessments, and entitlements pushed at the right stage — acute phase, marathon, or approaching transition. Not a list. A signal.</div>
+      </div>
+      <div class="feature-card fade-up d2">
+        <div class="feature-icon">🏛️</div>
+        <div class="feature-title">Carer's assessment prompt</div>
+        <div class="feature-desc">Surfaced proactively when the situation indicates it is relevant — not after the carer has been caring for two years and never knew they were entitled to one.</div>
+      </div>
+      <div class="feature-card fade-up d3">
+        <div class="feature-icon">👐</div>
+        <div class="feature-title">Local group finder</div>
+        <div class="feature-desc">Condition-matched and location-aware peer support, surfaced at the right stage — before isolation becomes collapse, not after.</div>
+      </div>
+      <div class="feature-card fade-up d1">
+        <div class="feature-icon">📬</div>
+        <div class="feature-title">Direct action, not a list</div>
+        <div class="feature-desc">A direct contact link where one exists. A template message where it does not. A record that the step was taken and whether it was followed up.</div>
+      </div>
+      <div class="feature-card fade-up d2">
+        <div class="feature-icon">🔁</div>
+        <div class="feature-title">Next-step chaining</div>
+        <div class="feature-desc">When one step is taken, the tool knows what typically follows — and surfaces it. The carer is never left at a dead end wondering what to do next.</div>
+      </div>
+      <div class="feature-card fade-up d3">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">Action log</div>
+        <div class="feature-desc">Every surfaced resource, every step taken, every open item — recorded. Not as an audit trail, but as a map: where the carer has been, and what is still open.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="container">
+    <div class="journey-intro fade-up">
+      <span class="section-label">Carer journey activation</span>
+      <h2>Where Coordination &amp; Navigation is most needed</h2>
+      <p>This cluster activates hardest in the acute and structural phases — when the carer is first building their understanding of what exists, and when they are most at risk of missing what would help them most.</p>
+    </div>
+    <div class="journey-stages fade-up d2">
+      <div class="stage high">
+        <div class="stage-num">Stage 01</div>
+        <div class="stage-name">Rupture</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="width:60%"></div></div>
+        <div class="stage-label">High</div>
+      </div>
+      <div class="stage peak">
+        <div class="stage-num">Stage 02</div>
+        <div class="stage-name">Immersion</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="width:100%"></div></div>
+        <div class="stage-label">Peak activation</div>
+      </div>
+      <div class="stage peak">
+        <div class="stage-num">Stage 03</div>
+        <div class="stage-name">The System</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="width:100%"></div></div>
+        <div class="stage-label">Peak activation</div>
+      </div>
+      <div class="stage high">
+        <div class="stage-num">Stage 04</div>
+        <div class="stage-name">Marathon</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="width:65%"></div></div>
+        <div class="stage-label">High</div>
+      </div>
+      <div class="stage high">
+        <div class="stage-num">Stage 05</div>
+        <div class="stage-name">Fracture</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="width:55%"></div></div>
+        <div class="stage-label">High</div>
+      </div>
+      <div class="stage peak">
+        <div class="stage-num">Stage 06</div>
+        <div class="stage-name">Transition</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="width:90%"></div></div>
+        <div class="stage-label">Peak activation</div>
+      </div>
+    </div>
+    <div class="journey-note fade-up d3">
+      <strong>Transition is a peak activation stage for this cluster.</strong> Carers are as unprepared for the transition out of caring — through recovery, deterioration, or bereavement — as they were for the transition into it. Navigation tools are as important at the end as at the beginning.
+    </div>
+  </div>
+</section>
+
+<!-- MOCK-UP -->
+<section id="mockup">
+  <div class="container">
+    <div class="mockup-intro fade-up">
+      <span class="section-label">Concept mock-up</span>
+      <h2>What the tool could look like</h2>
+      <p>The interface below illustrates intended functionality using the same fictional persona as Cluster 01 — Michael's carer, six weeks into the acute phase. The left panel shows resources being proactively surfaced at this stage of the journey. The right panel shows the action log — what has been surfaced, when, and what happened next.</p>
+    </div>
+    <div class="app-frame fade-up d2">
+      <div class="app-topbar">
+        <div class="app-topbar-left">
+          <div class="app-avatar">MH</div>
+          <div>
+            <div class="app-person-name">Michael Henderson — carer view</div>
+            <div class="app-person-meta">Carer: Sarah Henderson · Stroke survivor · 6 weeks post-discharge</div>
+          </div>
+        </div>
+        <div class="journey-stage-pill"><span class="pip"></span>Stage 02 — Immersion</div>
+      </div>
+      <div class="app-body">
+
+        <!-- LEFT: surfacing panel -->
+        <div class="surfacing-panel">
+          <div class="panel-header">
+            <div class="panel-title">Surfaced for you now</div>
+            <div class="panel-count">4 items · based on your journey stage</div>
+          </div>
+
+          <div class="surfaced-item">
+            <div class="surfaced-icon assess">🏛️</div>
+            <div>
+              <div class="surfaced-type">Assessment</div>
+              <div class="surfaced-name">Carer's assessment — Kent County Council</div>
+              <div class="surfaced-desc">You are legally entitled to an independent assessment of your own needs as a carer. Most carers are never told this exists. Requesting one does not commit you to anything.</div>
+              <div class="surfaced-tags">
+                <span class="stag stag-new">New for you</span>
+                <span class="stag stag-stage">Immersion stage</span>
+              </div>
+            </div>
+            <div class="action-btn">Request →</div>
+          </div>
+
+          <div class="surfaced-item">
+            <div class="surfaced-icon grant">💷</div>
+            <div>
+              <div class="surfaced-type">Grant</div>
+              <div class="surfaced-name">Carers Trust emergency fund</div>
+              <div class="surfaced-desc">Small grants for carers in financial difficulty as a direct result of their caring role. Average award £200–£500. Evidence of caring role required — your Cluster 01 record qualifies.</div>
+              <div class="surfaced-tags">
+                <span class="stag stag-urgent">Time-sensitive</span>
+                <span class="stag stag-stage">Acute phase</span>
+              </div>
+            </div>
+            <div class="action-btn">Apply →</div>
+          </div>
+
+          <div class="surfaced-item">
+            <div class="surfaced-icon group">👥</div>
+            <div>
+              <div class="surfaced-type">Peer support</div>
+              <div class="surfaced-name">Stroke carer peer group — Faversham</div>
+              <div class="surfaced-desc">Monthly group for carers of stroke survivors, run by Headway Kent. Next meeting 8 July. Three other carers in the Faversham area are currently members.</div>
+              <div class="surfaced-tags">
+                <span class="stag stag-new">Condition-matched</span>
+                <span class="stag stag-stage">Local</span>
+              </div>
+            </div>
+            <div class="action-btn">Contact →</div>
+          </div>
+
+          <div class="surfaced-item">
+            <div class="surfaced-icon benefit">📋</div>
+            <div>
+              <div class="surfaced-type">Benefit</div>
+              <div class="surfaced-name">Carer's Allowance — eligibility check</div>
+              <div class="surfaced-desc">Based on the caring hours you have recorded, you may be eligible. Takes 10 minutes to check. Does not affect Michael's benefits. Most eligible carers do not claim.</div>
+              <div class="surfaced-tags">
+                <span class="stag stag-new">Likely eligible</span>
+              </div>
+            </div>
+            <div class="action-btn">Check →</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: activity log -->
+        <div class="activity-panel">
+          <div class="activity-header">Action log</div>
+
+          <div class="activity-item">
+            <div class="activity-dot done"></div>
+            <div class="activity-date">18 Jun 2026</div>
+            <div class="activity-title">Referred to discharge coordinator</div>
+            <div class="activity-detail">Tool surfaced. Contact made same day. Follow-up call booked for 22 Jun.</div>
+            <span class="activity-status actioned">Actioned</span>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-dot done"></div>
+            <div class="activity-date">15 Jun 2026</div>
+            <div class="activity-title">Prescription exemption applied</div>
+            <div class="activity-detail">HC1 form submitted. Certificate expected within 14 days. Saves approx. £32/month.</div>
+            <span class="activity-status actioned">Actioned</span>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div class="activity-date">12 Jun 2026</div>
+            <div class="activity-title">Carer's assessment — not yet requested</div>
+            <div class="activity-detail">Surfaced on 12 Jun. No action taken yet. Still open.</div>
+            <span class="activity-status open">Open</span>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-dot done"></div>
+            <div class="activity-date">9 Jun 2026</div>
+            <div class="activity-title">Stroke Association helpline contacted</div>
+            <div class="activity-detail">Carer spoke to advisor. Signposted to local group. Group added to next surfacing cycle.</div>
+            <span class="activity-status actioned">Actioned</span>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-dot pending"></div>
+            <div class="activity-date">Pending</div>
+            <div class="activity-title">Carer's Allowance eligibility check</div>
+            <div class="activity-detail">Surfaced today. Not yet reviewed.</div>
+            <span class="activity-status pending">Not started</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="concept-note">Conceptual mock-up only · Fictional persona · Not connected to live systems · Full build reserved for funded development</div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN CONSTRAINTS -->
+<section id="constraints">
+  <div class="container">
+    <div class="constraints-intro fade-up">
+      <span class="section-label">Design constraints</span>
+      <h2>What this tool must know to work</h2>
+      <p>Coordination and Navigation requires something the other clusters do not — situational awareness. The tool must understand enough about where the carer is to surface what is relevant. Three constraints govern how that awareness is built and used.</p>
+    </div>
+    <div class="constraints-grid">
+      <div class="constraint-card fade-up d1">
+        <div class="constraint-num">01</div>
+        <h3>Lightweight situational awareness</h3>
+        <p>Not a lengthy assessment. Enough signal to know whether the carer is in the acute phase, the marathon, or approaching a transition. The burden of establishing that context must be lower than the burden of not having it.</p>
+      </div>
+      <div class="constraint-card fade-up d2">
+        <div class="constraint-num">02</div>
+        <h3>Active, not passive</h3>
+        <p>The tool pushes at the right moment. It does not wait. A resource surfaced six months too late is not a resource — it is a reminder of what was missed. Timing is not a secondary concern; it is the primary one.</p>
+      </div>
+      <div class="constraint-card fade-up d3">
+        <div class="constraint-num">03</div>
+        <h3>Decision and relationship belong to the carer</h3>
+        <p>Once a resource has been surfaced, the tool's role is to make action as easy as possible — a direct link, a template, a record that the step was taken. It does not make the decision. It does not follow up on the carer's behalf. It enables.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOUNDARY -->
+<section id="boundary">
+  <div class="boundary-inner">
+    <span class="section-label">The safety boundary</span>
+    <h2>What this tool will and will not do</h2>
+    <p>Surfacing something useful is only valuable if what is surfaced leads somewhere. A navigation tool that surfaces a resource and leaves the carer at a dead end has added load, not removed it.</p>
+    <div class="boundary-cols">
+      <div class="boundary-col will">
+        <h4>These tools will →</h4>
+        <div class="boundary-item">
+          <span class="boundary-arrow">→</span>
+          <div class="boundary-item-text">
+            <strong>Surface proactively</strong>
+            <span>Push what is relevant at the right stage of the journey — before the carer has to search for it.</span>
+          </div>
+        </div>
+        <div class="boundary-item">
+          <span class="boundary-arrow">→</span>
+          <div class="boundary-item-text">
+            <strong>Enable action directly</strong>
+            <span>A contact link, a template message, a form — not a link to a page that links to another page.</span>
+          </div>
+        </div>
+        <div class="boundary-item">
+          <span class="boundary-arrow">→</span>
+          <div class="boundary-item-text">
+            <strong>Record what happened</strong>
+            <span>Log every surfaced resource, every step taken, every item still open. The carer always knows where things stand.</span>
+          </div>
+        </div>
+        <div class="boundary-item">
+          <span class="boundary-arrow">→</span>
+          <div class="boundary-item-text">
+            <strong>Chain to the next step</strong>
+            <span>When one step is completed, surface what typically follows — so the carer is never left at a dead end.</span>
+          </div>
+        </div>
+      </div>
+      <div class="boundary-col wont">
+        <h4>These tools will not ✕</h4>
+        <div class="boundary-item">
+          <span class="boundary-arrow">✕</span>
+          <div class="boundary-item-text">
+            <strong>Make decisions</strong>
+            <span>The tool surfaces options. The carer decides. The tool does not prioritise one resource over another based on anything other than relevance and timing.</span>
+          </div>
+        </div>
+        <div class="boundary-item">
+          <span class="boundary-arrow">✕</span>
+          <div class="boundary-item-text">
+            <strong>Act on the carer's behalf</strong>
+            <span>The tool makes action easy. It does not take action. The relationship between the carer and any organisation is the carer's to own.</span>
+          </div>
+        </div>
+        <div class="boundary-item">
+          <span class="boundary-arrow">✕</span>
+          <div class="boundary-item-text">
+            <strong>Surface without a route</strong>
+            <span>A surfaced resource with no clear next step is not helpful — it is noise. Every item surfaced must have an actionable path attached.</span>
+          </div>
+        </div>
+        <div class="boundary-item">
+          <span class="boundary-arrow">✕</span>
+          <div class="boundary-item-text">
+            <strong>Replace professional navigation</strong>
+            <span>Where a carer needs a named professional — a social worker, a discharge coordinator, a carer support worker — the tool routes to them. It does not substitute for them.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="boundary-test">
+      <p>"Does surfacing this resource make the carer's next hour easier or harder? If there is no actionable path attached, it makes it harder."</p>
+      <cite>The design test — applied to every item before it enters the surfacing engine</cite>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-inner fade-up">
+      <span class="section-label">Get involved</span>
+      <h2>This tool needs the right partners to become real.</h2>
+      <p>The full build of Cluster 02 is reserved for funded development. If you are a commissioner, ICB lead, or funder working in unpaid carer support, we would like to hear from you.</p>
+      <div class="cta-btns">
+        <a href="https://www.assistiv.tools/#contact" class="btn btn-primary">Get in touch</a>
+        <a href="https://www.assistiv.tools/carer-framework.html" class="btn btn-ghost">View the full framework</a>
+      </div>
+      <div class="cluster-nav">
+        <div class="cluster-nav-label">All five clusters</div>
+        <div class="cluster-pills">
+          <a href="/carer-cluster-01.html" class="cluster-pill">C1 — Memory &amp; Record</a>
+          <a href="#" class="cluster-pill active">C2 — Coordination &amp; Navigation</a>
+          <a href="https://www.assistiv.tools/carer-framework.html#cluster03" class="cluster-pill">C3 — Safety &amp; Verification</a>
+          <a href="https://www.assistiv.tools/carer-framework.html#cluster04" class="cluster-pill">C4 — Communication &amp; Preparation</a>
+          <a href="https://www.assistiv.tools/carer-framework.html#cluster05" class="cluster-pill">C5 — Financial &amp; Administrative</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div style="display:flex;align-items:center;gap:0.65rem;margin-bottom:0.75rem">
+          <div style="position:relative;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <div style="border-radius:50%;position:absolute;width:7px;height:7px;background:#9e5412;z-index:2"></div>
+            <div style="border-radius:50%;position:absolute;width:15px;height:15px;border:1.5px solid #9e5412;opacity:0.38;background:none"></div>
+            <div style="border-radius:50%;position:absolute;width:24px;height:24px;border:1.5px solid #9e5412;opacity:0.16;background:none"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:1px">
+            <span style="font-family:'Cabinet Grotesk',sans-serif;font-size:1rem;font-weight:700;letter-spacing:-0.03em;line-height:1.1;color:#9e5412">Assistiv</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.48rem;letter-spacing:0.18em;text-transform:uppercase;line-height:1;color:#c4702a;opacity:0.85">Tools</span>
+          </div>
+        </div>
+        <p class="f-tagline">Community intelligence, built for the NHS. Delivering resilience where it is needed.</p>
+        <span class="f-powered">Powered by Anthropic technologies</span>
+      </div>
+      <nav class="f-nav" aria-label="Footer navigation">
+        <div class="f-nav-col">
+          <h5>The System</h5>
+          <a href="https://www.assistiv.tools/#problem">The Problem</a>
+          <a href="https://www.assistiv.tools/#how">How It Works</a>
+          <a href="https://www.assistiv.tools/#principles">Design Principles</a>
+          <a href="https://www.assistiv.tools/#evidence">Evidence Base</a>
+          <a href="https://www.assistiv.co/governance.html" target="_blank" rel="noopener">Governance</a>
+        </div>
+        <div class="f-nav-col">
+          <h5>The Tools</h5>
+          <a href="https://www.assistiv.tools/resilience_screening_tool/">Screening Tool</a>
+          <a href="https://www.assistiv.tools/resilience_carer/">Carer Report</a>
+          <a href="https://www.assistiv.tools/carer-companion/">Carer Companion</a>
+          <a href="https://www.assistiv.tools/resilience_referral_tool/">Clinical Referral</a>
+          <a href="https://www.assistiv.tools/resilience_dashboard/">Intelligence Dashboard</a>
+        </div>
+        <div class="f-nav-col">
+          <h5>About</h5>
+          <a href="https://www.assistiv.tools/carer-framework.html">Carer Framework</a>
+          <a href="https://www.assistiv.tools/#contact">Contact</a>
+          <a href="https://www.assistiv.co" target="_blank" rel="noopener">assistiv.co</a>
+          <a href="https://www.assistiv.cloud" target="_blank" rel="noopener">assistiv.cloud</a>
+          <a href="https://www.assistiv.services" target="_blank" rel="noopener">assistiv.services</a>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p class="f-copy">© 2026 Assistiv Systems Limited. Registered in England and Wales. Company number 17082597.</p>
+      <div class="f-links">
+        <a href="https://www.assistiv.co/governance.html">Governance</a>
+        <a href="https://www.assistiv.tools/privacy.html">Privacy</a>
+        <a href="https://www.assistiv.tools/terms.html">Terms</a>
+        <a href="https://www.assistiv.tools/accessibility.html">Accessibility</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+document.querySelectorAll('.nav-dropdown').forEach(dd => {
+  let t;
+  dd.addEventListener('mouseenter', () => { clearTimeout(t); dd.classList.add('open'); });
+  dd.addEventListener('mouseleave', () => { t = setTimeout(() => dd.classList.remove('open'), 150); });
+  dd.querySelector('.nav-dropdown-menu')?.addEventListener('mouseenter', () => clearTimeout(t));
+  dd.querySelector('.nav-dropdown-menu')?.addEventListener('mouseleave', () => { t = setTimeout(() => dd.classList.remove('open'), 150); });
+});
+
+const hbg = document.getElementById('hbg');
+const mob = document.getElementById('mob-nav');
+const cls = document.getElementById('mob-close');
+hbg.addEventListener('click', () => { mob.classList.add('open'); document.body.style.overflow = 'hidden'; });
+cls.addEventListener('click', () => { mob.classList.remove('open'); document.body.style.overflow = ''; });
+</script>
+
+</body>
+</html>
