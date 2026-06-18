@@ -39,42 +39,26 @@
 
   /* NAV */
   #topnav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--ground);
-    border-bottom: 1px solid var(--amber-mid);
-    padding: 0 2rem;
+    background: var(--amber-dark);
+    padding: 0 1.25rem;
     height: 52px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-
-  .nav-brand {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--amber);
-    letter-spacing: 0.08em;
-    text-decoration: none;
-    text-transform: uppercase;
+  .nav-logo-mark {
+    position: relative; width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
-
-  .nav-links {
-    display: flex;
-    gap: 1.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-size: 0.8rem;
-    color: var(--ink-light);
-    text-decoration: none;
-    font-weight: 400;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--amber); }
+  .nav-logo-dot { border-radius: 50%; position: absolute; }
+  .nav-logo-core { width: 7px; height: 7px; background: #ffffff; z-index: 2; }
+  .nav-logo-r1 { width: 15px; height: 15px; border: 1.5px solid rgba(255,255,255,0.55); background: none; }
+  .nav-logo-r2 { width: 24px; height: 24px; border: 1.5px solid rgba(255,255,255,0.22); background: none; }
 
   /* HERO */
   .hero {
@@ -786,12 +770,27 @@
 
 <!-- NAV -->
 <nav id="topnav">
-  <a class="nav-brand" href="/">assistiv.tools</a>
-  <ul class="nav-links">
-    <li><a href="#arc">The Journey</a></li>
-    <li><a href="#clusters">The Tools</a></li>
-    <li><a href="#boundary">Safety Boundary</a></li>
-  </ul>
+  <div style="display:flex;align-items:center;gap:0.85rem">
+    <a href="/" style="display:inline-flex;align-items:center;gap:0.35rem;color:rgba(255,255,255,0.6);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.15s;flex-shrink:0" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">&#8592; Tools</a>
+    <div style="width:1px;height:20px;background:rgba(255,255,255,0.2)"></div>
+    <a href="/" style="display:flex;align-items:center;text-decoration:none;flex-shrink:0" title="Assistiv Tools">
+      <div class="nav-logo-mark">
+        <div class="nav-logo-dot nav-logo-core"></div>
+        <div class="nav-logo-dot nav-logo-r1"></div>
+        <div class="nav-logo-dot nav-logo-r2"></div>
+      </div>
+    </a>
+    <div style="width:1px;height:20px;background:rgba(255,255,255,0.2)"></div>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <span style="font-family:'Cabinet Grotesk','DM Sans',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;letter-spacing:-0.02em;line-height:1">Carer Framework</span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.5);line-height:1">assistiv.tools · Concept 1.0</span>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:1.2rem">
+    <a href="#arc" style="color:rgba(255,255,255,0.6);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.15s" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">The Journey</a>
+    <a href="#clusters" style="color:rgba(255,255,255,0.6);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.15s" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">The Tools</a>
+    <a href="#boundary" style="color:rgba(255,255,255,0.6);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.15s" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Safety Boundary</a>
+  </div>
 </nav>
 
 <!-- HERO -->
