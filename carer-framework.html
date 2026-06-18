@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Carer Framework — Assistiv Tools</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Cabinet+Grotesk:wght@700&display=swap" rel="stylesheet">
 <style>
   :root {
     --amber: #C4702A;
@@ -400,6 +400,8 @@
     position: sticky;
     top: 70px;
     align-self: start;
+    background: var(--white);
+    padding: 0.25rem 0;
   }
 
   .cluster-code {
@@ -487,9 +489,11 @@
 
   /* SAFETY BOUNDARY */
   .boundary-section {
-    background: var(--amber-light);
+    background: var(--white);
     padding: 4rem 2rem;
     color: var(--ink);
+    border-top: 1px solid var(--amber-mid);
+    border-bottom: 1px solid var(--ground);
   }
 
   .boundary-section .section-eyebrow { color: var(--amber-dark); }
@@ -624,8 +628,8 @@
 
   /* FOOTER */
   footer {
-    background: var(--white);
-    border-top: 1px solid rgba(196,112,42,0.15);
+    background: var(--ground);
+    border-top: 1px solid var(--amber-mid);
     padding: 4rem 0 2.25rem;
   }
 
@@ -639,8 +643,8 @@
     display: grid;
     grid-template-columns: 220px 1fr;
     gap: 4rem;
+    align-items: start;
     padding-bottom: 3rem;
-    border-bottom: 1px solid rgba(26,18,8,0.08);
     margin-bottom: 2rem;
   }
 
@@ -664,6 +668,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+    align-items: start;
   }
 
   .f-nav-col h5 {
@@ -1171,20 +1176,19 @@
 </section>
 
 <!-- FOOTER -->
-<!-- FOOTER -->
 <footer>
   <div class="footer-container">
     <div class="footer-top">
       <div>
         <div style="display:flex;align-items:center;gap:0.65rem;margin-bottom:0.75rem">
           <div style="position:relative;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <div style="border-radius:50%;position:absolute;width:7px;height:7px;background:#8B4E1C;z-index:2"></div>
-            <div style="border-radius:50%;position:absolute;width:15px;height:15px;border:1.5px solid #8B4E1C;opacity:0.38;background:none"></div>
-            <div style="border-radius:50%;position:absolute;width:24px;height:24px;border:1.5px solid #8B4E1C;opacity:0.16;background:none"></div>
+            <div style="border-radius:50%;position:absolute;width:7px;height:7px;background:#9e5412;z-index:2"></div>
+            <div style="border-radius:50%;position:absolute;width:15px;height:15px;border:1.5px solid #9e5412;opacity:0.38;background:none"></div>
+            <div style="border-radius:50%;position:absolute;width:24px;height:24px;border:1.5px solid #9e5412;opacity:0.16;background:none"></div>
           </div>
           <div style="display:flex;flex-direction:column;gap:1px">
-            <span style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;letter-spacing:0.05em;line-height:1.1;color:#8B4E1C">Assistiv</span>
-            <span style="font-family:'DM Mono',monospace;font-size:0.48rem;letter-spacing:0.18em;text-transform:uppercase;line-height:1;color:#C4702A;opacity:0.85">Tools</span>
+            <span style="font-family:'Cabinet Grotesk',sans-serif;font-size:1rem;font-weight:700;letter-spacing:-0.03em;line-height:1.1;color:#9e5412">Assistiv</span>
+            <span style="font-family:'DM Mono',monospace;font-size:0.48rem;letter-spacing:0.18em;text-transform:uppercase;line-height:1;color:#c4702a;opacity:0.85">Tools</span>
           </div>
         </div>
         <p class="f-tagline">Community intelligence, built for the NHS. Delivering resilience where it is needed.</p>
