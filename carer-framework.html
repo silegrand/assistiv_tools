@@ -7,21 +7,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&family=Cabinet+Grotesk:wght@700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --amber: #C4702A;
-    --amber-light: #F5EBE0;
-    --amber-mid: #E8D0B8;
-    --amber-dark: #8B4E1C;
-    --ink: #1A1208;
-    --ink-mid: #3D2E1E;
-    --ink-light: #7A6555;
-    --ground: #FDFAF7;
-    --white: #FFFFFF;
-    --stage-1: #D4A574;
-    --stage-2: #C4702A;
-    --stage-3: #A85C1F;
-    --stage-4: #B8673F;
-    --stage-5: #8B4E1C;
-    --stage-6: #C4702A;
+    /* ── Warm orange & cream — matches assistiv.tools homepage ── */
+    --amber:       #ED8C36;      /* primary orange — homepage --brand */
+    --amber-light: #FDF6EE;      /* very pale cream-orange */
+    --amber-mid:   #fde8cc;      /* soft warm cream for borders/fills */
+    --amber-dark:  #9e5412;      /* deep orange for hover states */
+    --ink:         #1c1814;      /* warm near-black */
+    --ink-mid:     #3d3228;      /* warm dark brown */
+    --ink-light:   #7a6e62;      /* warm mid-grey */
+    --ground:      #FAF7F2;      /* homepage --cream background */
+    --white:       #FFFFFF;
+    --stage-1: #f9c97a;          /* light amber */
+    --stage-2: #ED8C36;          /* primary orange */
+    --stage-3: #d4710f;          /* deeper orange */
+    --stage-4: #c4702a;          /* warm mid */
+    --stage-5: #9e5412;          /* dark orange */
+    --stage-6: #ED8C36;          /* primary orange repeat */
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -853,47 +854,47 @@
         <rect width="900" height="160" fill="transparent"/>
 
         <!-- Grid lines -->
-        <line x1="75" y1="20" x2="75" y2="130" stroke="#E8D0B8" stroke-width="1"/>
-        <line x1="225" y1="20" x2="225" y2="130" stroke="#E8D0B8" stroke-width="1"/>
-        <line x1="375" y1="20" x2="375" y2="130" stroke="#E8D0B8" stroke-width="1"/>
-        <line x1="525" y1="20" x2="525" y2="130" stroke="#E8D0B8" stroke-width="1"/>
-        <line x1="675" y1="20" x2="675" y2="130" stroke="#E8D0B8" stroke-width="1"/>
-        <line x1="825" y1="20" x2="825" y2="130" stroke="#E8D0B8" stroke-width="1"/>
+        <line x1="75" y1="20" x2="75" y2="130" stroke="#fde8cc" stroke-width="1"/>
+        <line x1="225" y1="20" x2="225" y2="130" stroke="#fde8cc" stroke-width="1"/>
+        <line x1="375" y1="20" x2="375" y2="130" stroke="#fde8cc" stroke-width="1"/>
+        <line x1="525" y1="20" x2="525" y2="130" stroke="#fde8cc" stroke-width="1"/>
+        <line x1="675" y1="20" x2="675" y2="130" stroke="#fde8cc" stroke-width="1"/>
+        <line x1="825" y1="20" x2="825" y2="130" stroke="#fde8cc" stroke-width="1"/>
 
         <!-- Baseline -->
-        <line x1="30" y1="130" x2="870" y2="130" stroke="#E8D0B8" stroke-width="1"/>
+        <line x1="30" y1="130" x2="870" y2="130" stroke="#fde8cc" stroke-width="1"/>
 
         <!-- Load path: rises steeply at S2, peaks S3, sustains S4, S5 spike, resolves S6 -->
         <path d="M75,110 C110,105 160,75 225,45 C275,22 325,18 375,18 C420,18 460,35 525,55 C580,72 620,90 675,95 C720,88 770,105 825,100"
-              fill="none" stroke="#C4702A" stroke-width="2.5" stroke-linecap="round"/>
+              fill="none" stroke="#ED8C36" stroke-width="2.5" stroke-linecap="round"/>
 
         <!-- Fill under path -->
         <path d="M75,110 C110,105 160,75 225,45 C275,22 325,18 375,18 C420,18 460,35 525,55 C580,72 620,90 675,95 C720,88 770,105 825,100 L825,130 L75,130 Z"
               fill="url(#arcGrad)" opacity="0.25"/>
 
         <!-- Stage dots -->
-        <circle cx="75" cy="110" r="5" fill="#D4A574"/>
-        <circle cx="225" cy="45" r="5" fill="#C4702A"/>
-        <circle cx="375" cy="18" r="6" fill="#A85C1F"/>
-        <circle cx="525" cy="55" r="5" fill="#B8673F"/>
-        <circle cx="675" cy="95" r="6" fill="#8B4E1C"/>
-        <circle cx="825" cy="100" r="5" fill="#C4702A"/>
+        <circle cx="75" cy="110" r="5" fill="#f9c97a"/>
+        <circle cx="225" cy="45" r="5" fill="#ED8C36"/>
+        <circle cx="375" cy="18" r="6" fill="#d4710f"/>
+        <circle cx="525" cy="55" r="5" fill="#c4702a"/>
+        <circle cx="675" cy="95" r="6" fill="#9e5412"/>
+        <circle cx="825" cy="100" r="5" fill="#ED8C36"/>
 
         <!-- Peak markers -->
-        <text x="375" y="12" text-anchor="middle" font-family="DM Mono" font-size="8" fill="#A85C1F" letter-spacing="0.05em">PEAK LOAD</text>
+        <text x="375" y="12" text-anchor="middle" font-family="DM Mono" font-size="8" fill="#d4710f" letter-spacing="0.05em">PEAK LOAD</text>
 
         <!-- Stage labels -->
-        <text x="75" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#7A6555">RUPTURE</text>
-        <text x="225" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#C4702A">IMMERSION</text>
-        <text x="375" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#A85C1F">THE SYSTEM</text>
-        <text x="525" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#B8673F">MARATHON</text>
-        <text x="675" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#8B4E1C">FRACTURE</text>
-        <text x="825" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#C4702A">TRANSITION</text>
+        <text x="75" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#7a6e62">RUPTURE</text>
+        <text x="225" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#ED8C36">IMMERSION</text>
+        <text x="375" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#d4710f">THE SYSTEM</text>
+        <text x="525" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#c4702a">MARATHON</text>
+        <text x="675" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#9e5412">FRACTURE</text>
+        <text x="825" y="148" text-anchor="middle" font-family="DM Mono" font-size="9" fill="#ED8C36">TRANSITION</text>
 
         <defs>
           <linearGradient id="arcGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:#C4702A;stop-opacity:1"/>
-            <stop offset="100%" style="stop-color:#C4702A;stop-opacity:0"/>
+            <stop offset="0%" style="stop-color:#ED8C36;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#ED8C36;stop-opacity:0"/>
           </linearGradient>
         </defs>
       </svg>
