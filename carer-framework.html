@@ -37,7 +37,7 @@
   }
 
   /* NAV */
-  nav {
+  #topnav {
     position: sticky;
     top: 0;
     z-index: 100;
@@ -493,7 +493,6 @@
     padding: 4rem 2rem;
     color: var(--ink);
     border-top: 1px solid var(--amber-mid);
-    border-bottom: 1px solid var(--ground);
   }
 
   .boundary-section .section-eyebrow { color: var(--amber-dark); }
@@ -626,52 +625,88 @@
     font-weight: 300;
   }
 
-  /* FOOTER */
-  footer {
+  /* SITE FOOTER — rebuilt clean */
+  .site-footer {
     background: var(--ground);
+    padding: 4rem 2rem 2.5rem;
+    margin-top: 4rem;
     border-top: 1px solid var(--amber-mid);
-    padding: 4rem 0 2.25rem;
   }
 
-  .footer-container {
+  .sf-inner {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 0 2rem;
   }
 
-  .footer-top {
+  .sf-grid {
     display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 4rem;
+    grid-template-columns: 240px 1fr 1fr 1fr;
+    gap: 3rem;
     align-items: start;
-    padding-bottom: 3rem;
-    margin-bottom: 2rem;
   }
 
-  .f-tagline {
+  .sf-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .sf-mark {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .sf-mark span {
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .sf-mark .sf-dot { width: 7px; height: 7px; background: #9e5412; z-index: 2; }
+  .sf-mark .sf-ring1 { width: 15px; height: 15px; border: 1.5px solid #9e5412; opacity: 0.38; }
+  .sf-mark .sf-ring2 { width: 24px; height: 24px; border: 1.5px solid #9e5412; opacity: 0.16; }
+
+  .sf-wordmark { display: flex; flex-direction: column; gap: 1px; }
+  .sf-word {
+    font-family: 'Cabinet Grotesk', 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: #9e5412;
+  }
+  .sf-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.48rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: #c4702a;
+    opacity: 0.85;
+  }
+
+  .sf-tagline {
     font-size: 0.82rem;
     color: var(--ink-light);
     line-height: 1.75;
     max-width: 220px;
     font-weight: 300;
+    margin-bottom: 1.4rem;
   }
 
-  .f-powered {
+  .sf-powered {
     display: block;
     font-size: 0.72rem;
     color: rgba(26,18,8,0.35);
-    margin-top: 1.4rem;
     font-family: 'DM Sans', sans-serif;
   }
 
-  .f-nav {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    align-items: start;
-  }
-
-  .f-nav-col h5 {
+  .sf-col h5 {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.66rem;
     font-weight: 700;
@@ -681,27 +716,30 @@
     margin-bottom: 1rem;
   }
 
-  .f-nav-col a {
+  .sf-col a {
     display: block;
     font-size: 0.82rem;
     color: var(--ink-light);
     margin-bottom: 0.55rem;
-    transition: color 0.2s;
     text-decoration: none;
     font-weight: 300;
+    transition: color 0.2s;
   }
 
-  .f-nav-col a:hover { color: var(--amber-dark); }
+  .sf-col a:hover { color: var(--amber-dark); }
 
-  .footer-bottom {
+  .sf-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--amber-mid);
   }
 
-  .f-copy {
+  .sf-copy {
     font-size: 0.75rem;
     color: rgba(26,18,8,0.38);
     font-family: 'DM Sans', sans-serif;
@@ -710,26 +748,24 @@
     max-width: 680px;
   }
 
-  .f-links { display: flex; gap: 1.5rem; }
+  .sf-legal { display: flex; gap: 1.5rem; }
 
-  .f-links a {
+  .sf-legal a {
     font-size: 0.75rem;
     color: rgba(26,18,8,0.38);
-    transition: color 0.2s;
     text-decoration: none;
+    transition: color 0.2s;
   }
 
-  .f-links a:hover { color: var(--amber-dark); }
+  .sf-legal a:hover { color: var(--amber-dark); }
 
-  @media (max-width: 680px) {
-    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
-    .f-nav { grid-template-columns: repeat(2, 1fr); }
-    .footer-bottom { flex-direction: column; text-align: center; }
-    .f-links { justify-content: center; }
+  @media (max-width: 820px) {
+    .sf-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
   }
 
-  @media (max-width: 420px) {
-    .f-nav { grid-template-columns: 1fr; }
+  @media (max-width: 520px) {
+    .sf-grid { grid-template-columns: 1fr; }
+    .sf-bottom { flex-direction: column; align-items: flex-start; }
   }
 
   /* SCROLL REVEAL */
@@ -748,7 +784,7 @@
 <body>
 
 <!-- NAV -->
-<nav>
+<nav id="topnav">
   <a class="nav-brand" href="/">assistiv.tools</a>
   <ul class="nav-links">
     <li><a href="#arc">The Journey</a></li>
@@ -1176,53 +1212,57 @@
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-container">
-    <div class="footer-top">
-      <div>
-        <div style="display:flex;align-items:center;gap:0.65rem;margin-bottom:0.75rem">
-          <div style="position:relative;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <div style="border-radius:50%;position:absolute;width:7px;height:7px;background:#9e5412;z-index:2"></div>
-            <div style="border-radius:50%;position:absolute;width:15px;height:15px;border:1.5px solid #9e5412;opacity:0.38;background:none"></div>
-            <div style="border-radius:50%;position:absolute;width:24px;height:24px;border:1.5px solid #9e5412;opacity:0.16;background:none"></div>
+<footer class="site-footer">
+  <div class="sf-inner">
+    <div class="sf-grid">
+
+      <div class="sf-brand">
+        <div class="sf-brand-row">
+          <div class="sf-mark">
+            <span class="sf-dot"></span>
+            <span class="sf-ring1"></span>
+            <span class="sf-ring2"></span>
           </div>
-          <div style="display:flex;flex-direction:column;gap:1px">
-            <span style="font-family:'Cabinet Grotesk',sans-serif;font-size:1rem;font-weight:700;letter-spacing:-0.03em;line-height:1.1;color:#9e5412">Assistiv</span>
-            <span style="font-family:'DM Mono',monospace;font-size:0.48rem;letter-spacing:0.18em;text-transform:uppercase;line-height:1;color:#c4702a;opacity:0.85">Tools</span>
+          <div class="sf-wordmark">
+            <span class="sf-word">Assistiv</span>
+            <span class="sf-sub">Tools</span>
           </div>
         </div>
-        <p class="f-tagline">Community intelligence, built for the NHS. Delivering resilience where it is needed.</p>
-        <span class="f-powered">Powered by Anthropic technologies</span>
+        <p class="sf-tagline">Community intelligence, built for the NHS. Delivering resilience where it is needed.</p>
+        <span class="sf-powered">Powered by Anthropic technologies</span>
       </div>
-      <nav class="f-nav" aria-label="Footer navigation">
-        <div class="f-nav-col">
-          <h5>The System</h5>
-          <a href="/#problem">The Problem</a>
-          <a href="/#how">How It Works</a>
-          <a href="/#principles">Design Principles</a>
-          <a href="/#evidence">Evidence Base</a>
-          <a href="https://www.assistiv.co/governance.html" target="_blank" rel="noopener">Governance</a>
-        </div>
-        <div class="f-nav-col">
-          <h5>The Tools</h5>
-          <a href="/resilience_screening_tool/">Screening Tool</a>
-          <a href="/resilience_carer/">Carer Report</a>
-          <a href="/carer-companion/">Carer Companion</a>
-          <a href="/resilience_referral_tool/">Clinical Referral</a>
-          <a href="/resilience_person_carer_referral/">Dual Report</a>
-          <a href="/resilience_dashboard/">Intelligence Dashboard</a>
-        </div>
-        <div class="f-nav-col">
-          <h5>About</h5>
-          <a href="/#for-whom">For Whom</a>
-          <a href="/#for-you">For You and Your Family</a>
-          <a href="/#contact">Contact</a>
-        </div>
-      </nav>
+
+      <div class="sf-col">
+        <h5>The System</h5>
+        <a href="/#problem">The Problem</a>
+        <a href="/#how">How It Works</a>
+        <a href="/#principles">Design Principles</a>
+        <a href="/#evidence">Evidence Base</a>
+        <a href="https://www.assistiv.co/governance.html" target="_blank" rel="noopener">Governance</a>
+      </div>
+
+      <div class="sf-col">
+        <h5>The Tools</h5>
+        <a href="/resilience_screening_tool/">Screening Tool</a>
+        <a href="/resilience_carer/">Carer Report</a>
+        <a href="/carer-companion/">Carer Companion</a>
+        <a href="/resilience_referral_tool/">Clinical Referral</a>
+        <a href="/resilience_person_carer_referral/">Dual Report</a>
+        <a href="/resilience_dashboard/">Intelligence Dashboard</a>
+      </div>
+
+      <div class="sf-col">
+        <h5>About</h5>
+        <a href="/#for-whom">For Whom</a>
+        <a href="/#for-you">For You and Your Family</a>
+        <a href="/#contact">Contact</a>
+      </div>
+
     </div>
-    <div class="footer-bottom">
-      <p class="f-copy">© 2026 Assistiv Systems Limited. Registered in England and Wales. Company number 17082597. Open Data: NHS Fingertips, NHSBSA EPD, ONS Census 2021, MHCLG IMD 2025. For research and commissioning intelligence purposes only.</p>
-      <div class="f-links">
+
+    <div class="sf-bottom">
+      <p class="sf-copy">© 2026 Assistiv Systems Limited. Registered in England and Wales. Company number 17082597. Open Data: NHS Fingertips, NHSBSA EPD, ONS Census 2021, MHCLG IMD 2025. For research and commissioning intelligence purposes only.</p>
+      <div class="sf-legal">
         <a href="https://www.assistiv.co/governance.html" target="_blank" rel="noopener">Governance</a>
         <a href="/privacy.html">Privacy</a>
         <a href="/terms.html">Terms</a>
